@@ -30,7 +30,7 @@
                 android:scaleType="centerCrop"
                 android:layout_gravity="center"
                 android:id="@+id/imgbtn_logout"
-                android:layout_marginLeft="220dp"
+                android:layout_marginLeft="215dp"
                 />
         </LinearLayout>
         <ImageView
