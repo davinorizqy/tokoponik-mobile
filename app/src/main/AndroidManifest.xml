@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Tokoponik"
         tools:targetApi="31">
         <activity
+            android:name=".ViewBank"
+            android:exported="false" />
+        <activity
+            android:name=".Checkout"
+            android:exported="false" />
+        <activity
             android:name=".Cart"
             android:exported="false" />
         <activity
