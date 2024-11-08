@@ -1,10 +1,12 @@
 package com.example.tokoponik
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,9 @@ class WishlistFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    //variabel button
+    private lateinit var imgbtnCart: ImageButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,6 +40,17 @@ class WishlistFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_wishlist, container, false)
+    }
+
+    // function intent
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Contoh penggunaan tombol untuk membuka Activity
+        imgbtnCart = view.findViewById(R.id.imgbtn_to_cart)
+        imgbtnCart.setOnClickListener {
+            val intent = Intent(activity, Cart::class.java)
+            startActivity(intent)
+        }
     }
 
     companion object {

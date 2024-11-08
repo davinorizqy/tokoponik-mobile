@@ -27,7 +27,7 @@
                 android:textStyle="bold"
                 android:textSize="15sp"/>
         </LinearLayout>
-        <!-- RecyclerView untuk Daftar Produk -->
+        <!-- RecyclerView untuk Daftar Produk(item_transaction_product) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/transaction_productRecyclerView"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="550dp">
+            >
 
             <Button
                 android:id="@+id/detailButton"

@@ -9,34 +9,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class TransactionDetail : AppCompatActivity() {
+class Rating : AppCompatActivity() {
 
-    private lateinit var imgBtnToTransaction: ImageButton
-    private lateinit var btnToRate: Button
+    private lateinit var imgBtnToTransactionDetail: ImageButton
+    private lateinit var btnRating: Button
     private lateinit var imgBtnToCart: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_transaction_detail)
+        setContentView(R.layout.activity_rating)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        imgBtnToTransaction = findViewById(R.id.imgbtn_to_transaction)
-        imgBtnToTransaction.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-            intent.putExtra("showTransactionFragment", true)
+        imgBtnToTransactionDetail = findViewById(R.id.imgbtn_to_transactiondetail)
+        imgBtnToTransactionDetail.setOnClickListener {
+            val intent = Intent(this, TransactionDetail::class.java)
             startActivity(intent)
-            finish()
         }
 
-        btnToRate = findViewById(R.id.btn_to_rateform)
-        btnToRate.setOnClickListener {
-            val intent = Intent(this, Rating::class.java)
+        btnRating = findViewById(R.id.btn_rating)
+        btnRating.setOnClickListener {
+            val intent = Intent(this, TransactionDetail::class.java)
             startActivity(intent)
         }
 

@@ -67,4 +67,16 @@ class Home : AppCompatActivity() {
             }
         }
     }
+
+    //function buat nampilin TransactionFragment
+    fun showTransactionFragment(intent: Intent?) {
+        intent?.let {
+            if (it.getBooleanExtra("showTransactionFragment", false)) {
+                // Pindah ke TransactionFragment
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frame_layout, TransactionFragment())
+                    .commit()
+            }
+        }
+    }
 }
