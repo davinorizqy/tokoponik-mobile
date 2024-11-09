@@ -5,12 +5,175 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textSize="24dp"
-        android:layout_gravity="center"/>
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/logo2" />
+
+            <ImageButton
+                android:id="@+id/imgbtn_to_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cart"
+                android:background="@color/white"
+                android:layout_gravity="center"
+                />
+        </LinearLayout>
+        <!--Ke Search Result untuk menampilkan produk-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Cari nama product"
+            android:drawableEnd="@drawable/baseline_search_24"
+            android:inputType="text"
+            android:background="@color/grey"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategori"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageButton
+                    android:id="@+id/imgbtn_seed_category"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/button_category_seed"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Benih"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="30dp">
+                <ImageButton
+                    android:id="@+id/imgbtn_vegetable_category"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/button_category_vegetable"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sayuran"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="25dp">
+                <ImageButton
+                    android:id="@+id/imgbtn_tools_category"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/button_category_tools"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Peralatan"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Produk"
+                android:textSize="15sp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_see_all_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Semua"
+                android:textSize="15sp"
+                android:textColor="#3669C9"
+                />
+        </LinearLayout>
+        <!--Nampilin item_product-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blog Terbaru"
+                android:textSize="15sp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_see_all_blog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Semua"
+                android:textSize="15sp"
+                android:textColor="#3669C9"
+                />
+        </LinearLayout>
+        <!--Nampilin item_blog-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/blogRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+</ScrollView>
 
 </FrameLayout>

@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
-                <ImageButton
+                <ImageView
                     android:layout_width="24dp"
                     android:layout_height="23dp"
                     android:src="@drawable/ic_onestar"

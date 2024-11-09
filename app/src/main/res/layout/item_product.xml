@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/baseline_image_24"
+            android:contentDescription="Product Image"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Produk"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp. 1000"
+            android:textStyle="bold"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+        />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="23dp"
+                android:src="@drawable/ic_onestar"
+                android:background="@color/white"/>
+            <TextView
+                android:id="@+id/textratingvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.6"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/texttotalreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80 review"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_wishlist"
+                android:background="@color/white"
+                android:layout_marginStart="70dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
