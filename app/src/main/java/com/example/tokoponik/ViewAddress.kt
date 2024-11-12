@@ -16,12 +16,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.AddressAdapter
 import com.example.tokoponik.restapi.adapter.AddressButtonListener
 import com.example.tokoponik.restapi.models.address.Address
 import com.example.tokoponik.restapi.models.address.cudResponse
 import com.example.tokoponik.restapi.models.address.getResponse
+import com.example.tokoponik.restapi.services.AddressService
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,6 +38,8 @@ class ViewAddress : AppCompatActivity(), AddressButtonListener {
     private lateinit var callGet: Call<getResponse>
     private lateinit var callCud: Call<cudResponse>
     private lateinit var addressAdapter: AddressAdapter
+    private lateinit var sessionManager: SessionManager
+    private lateinit var addressService: AddressService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +76,10 @@ class ViewAddress : AppCompatActivity(), AddressButtonListener {
             startActivity(intent)
         }
 
-        getuserAddress(1) // nanti di ganti pake id sesuai id user yang login
+        sessionManager = SessionManager(this)
+        addressService = ApiClient.getAddressService(sessionManager)
+
+        getUserAddress()
     }
 
     private fun addressOnClick(address: Address) {
@@ -107,19 +114,18 @@ class ViewAddress : AppCompatActivity(), AddressButtonListener {
             .show()
     }
 
-    private fun getuserAddress(user_id: Int) {
+    private fun getUserAddress() {
         refreshLayout.isRefreshing = true
 
-        callGet = ApiClient.addressService.getUserAddress(user_id)
+        callGet = addressService.getUserAddress()
         callGet.enqueue(object : Callback<getResponse> {
-            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
                 call: Call<getResponse>,
                 response: Response<getResponse>
             ) {
                 refreshLayout.isRefreshing = false
                 if (response.isSuccessful) {
-//                    Log.d("Data Address", response.body()?.data.toString())
+                    Log.d("Data Address", response.body()?.data.toString())
                     addressAdapter.submitList(response.body()?.data)
                     addressAdapter.notifyDataSetChanged()
                 } else {
@@ -132,20 +138,20 @@ class ViewAddress : AppCompatActivity(), AddressButtonListener {
                 Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
-
         })
     }
 
     private fun destroyAddress(id: Int) {
         refreshLayout.isRefreshing = true
 
-        callCud = ApiClient.addressService.destroyAddress(id)
+        // Use the initialized addressService here
+        val callCud = addressService.destroyAddress(id)
 
         callCud.enqueue(object : Callback<cudResponse> {
             override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
                 refreshLayout.isRefreshing = false
                 Toast.makeText(applicationContext, "Alamat berhasil di hapus", Toast.LENGTH_SHORT).show()
-                getuserAddress(1) // nanti di ganti pake id sesuai id user yang login
+                getUserAddress()
             }
 
             override fun onFailure(call: Call<cudResponse>, t: Throwable) {

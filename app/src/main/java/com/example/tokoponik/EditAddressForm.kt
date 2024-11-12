@@ -13,9 +13,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.models.address.Address
 import com.example.tokoponik.restapi.models.address.cudResponse
+import com.example.tokoponik.restapi.services.AddressService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +35,9 @@ class EditAddressForm : AppCompatActivity() {
     private lateinit var etNote: EditText
 
     private lateinit var call: Call<cudResponse>
+
+    private lateinit var sessionManager: SessionManager
+    private lateinit var addressService: AddressService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +62,9 @@ class EditAddressForm : AppCompatActivity() {
         etSubdistrict = findViewById(R.id.et_subdistrict)
         etPostcode = findViewById(R.id.et_postcode)
         etNote = findViewById(R.id.et_note)
+
+        sessionManager = SessionManager(this)
+        addressService = ApiClient.getAddressService(sessionManager)
 
         val address = intent.getParcelableExtra<Address>("address_data")
         address?.let {
@@ -91,7 +99,7 @@ class EditAddressForm : AppCompatActivity() {
     }
 
     private fun updateAddress(id: Int, user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
-        call = ApiClient.addressService.updateAddress(
+        call = addressService.updateAddress(
             id, user_id, address, province, district, subdistrict, post_code, note)
 
         call.enqueue(object : Callback<cudResponse> {
