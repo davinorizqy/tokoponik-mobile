@@ -14,9 +14,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.AddressAdapter
 import com.example.tokoponik.restapi.models.address.cudResponse
+import com.example.tokoponik.restapi.services.AddressService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,6 +36,8 @@ class AddAddressForm : AppCompatActivity() {
 
     private lateinit var call: Call<cudResponse>
 
+    private lateinit var sessionManager: SessionManager
+    private lateinit var addressService: AddressService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,10 +72,13 @@ class AddAddressForm : AppCompatActivity() {
                 etPostcode.text.toString(),
                 etNote.text.toString())
         }
+
+        sessionManager = SessionManager(this)
+        addressService = ApiClient.getAddressService(sessionManager)
     }
 
     private fun storeAddress(user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
-        call = ApiClient.addressService.storeAddress(
+        call = addressService.storeAddress(
             user_id, address, province, district, subdistrict, post_code, note)
 
         call.enqueue(object : Callback<cudResponse> {
@@ -86,6 +93,8 @@ class AddAddressForm : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }, 3000)
+                } else {
+                    Log.d("Not Success", response.toString())
                 }
             }
 
