@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.models.user.authResponse
+import com.example.tokoponik.restapi.services.AuthService
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -30,6 +31,8 @@ class Login : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var session: SessionManager
     private lateinit var call: Call<authResponse>
+
+    private lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,8 @@ class Login : AppCompatActivity() {
         tvToRegister = findViewById(R.id.tv_to_register)
 
         session = SessionManager(this)
+        authService = ApiClient.getAuthService(session)
+
         btnLogin.setOnClickListener {
             login(
                 et_username.text.toString(),
@@ -62,7 +67,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun login(username: String, password: String) {
-        call = ApiClient.authService.login(username, password)
+        call = authService.login(username, password)
 
         call.enqueue(object : Callback<authResponse> {
             override fun onResponse(call: Call<authResponse>, response: Response<authResponse>) {
@@ -76,7 +81,9 @@ class Login : AppCompatActivity() {
 
 
                     Handler(Looper.getMainLooper()).postDelayed({
-                        val intent = Intent(this@Login, ViewAddress::class.java)
+                        val intent = Intent(this@Login, Home::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        intent.putExtra("showProfileFragment", true)
                         startActivity(intent)
                         finish()
                     }, 3000)
