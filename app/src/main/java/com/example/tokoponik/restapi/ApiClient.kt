@@ -11,41 +11,40 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
     private const val BASE_URL = "http://10.0.2.2:8000/api/"
 
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    fun getOkHttpClient(session: SessionManager): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+    private fun getOkHttpClient(session: SessionManager): OkHttpClient {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
         return OkHttpClient.Builder()
-            .addInterceptor(logging) // Logging for debugging
+            .addInterceptor(logging)
             .addInterceptor { chain ->
                 val requestBuilder = chain.request().newBuilder()
                 val token = session.getAuthToken()
 
-                // Add Authorization header if token exists
                 if (token != null) {
                     requestBuilder.addHeader("Authorization", "Bearer $token")
                 }
 
-                // Add Accept header
                 requestBuilder.addHeader("Accept", "application/json")
-
                 chain.proceed(requestBuilder.build())
             }
             .build()
     }
 
-    val authService: AuthService by lazy {
-        retrofit.create(AuthService::class.java)
+    fun getRetrofit(session: SessionManager? = null): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(getOkHttpClient(session!!))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
-    val addressService: AddressService by lazy {
-        retrofit.create(AddressService::class.java)
+    fun getAuthService(session: SessionManager): AuthService {
+        return getRetrofit(session).create(AuthService::class.java)
+    }
+
+    fun getAddressService(session: SessionManager): AddressService {
+        return getRetrofit(session).create(AddressService::class.java)
     }
 }
