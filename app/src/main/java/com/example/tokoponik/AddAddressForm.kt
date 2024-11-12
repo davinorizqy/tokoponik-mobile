@@ -86,6 +86,8 @@ class AddAddressForm : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }, 3000)
+                } else {
+                    Log.d("Not Success", response.toString())
                 }
             }
 

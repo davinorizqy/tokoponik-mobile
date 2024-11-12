@@ -122,6 +122,8 @@ class ViewAddress : AppCompatActivity(), AddressButtonListener {
 //                    Log.d("Data Address", response.body()?.data.toString())
                     addressAdapter.submitList(response.body()?.data)
                     addressAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d("Not Success", response.toString())
                 }
             }
 
