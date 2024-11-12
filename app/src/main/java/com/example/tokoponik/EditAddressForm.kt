@@ -69,17 +69,15 @@ class EditAddressForm : AppCompatActivity() {
         }
 
         btnUpdateAddress.setOnClickListener {
-            Log.d("Edited data", address.toString())
             if (etAddress.text.isNullOrBlank() || etProvince.text.isNullOrBlank() ||
                 etDistrict.text.isNullOrBlank() || etSubdistrict.text.isNullOrBlank() ||
                 etPostcode.text.isNullOrBlank() || etNote.text.isNullOrBlank()
             ) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d("Test Update", "Test Address")
                 if (address != null) {
                     updateAddress(
-                        address.id, address.id, address.user_id,
+                        address.id, address.user_id,
                         etAddress.text.toString(),
                         etProvince.text.toString(),
                         etDistrict.text.toString(),
@@ -87,17 +85,14 @@ class EditAddressForm : AppCompatActivity() {
                         etPostcode.text.toString(),
                         etNote.text.toString()
                     )
-                    Log.d("apalah1", "Test Address")
-                } else {
-                    Log.d("apalah2", "Test Address")
                 }
             }
         }
     }
 
-    private fun updateAddress(id: Int, idField: Int, user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
+    private fun updateAddress(id: Int, user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
         call = ApiClient.addressService.updateAddress(
-            id, idField, user_id, address, province, district, subdistrict, post_code, note)
+            id, user_id, address, province, district, subdistrict, post_code, note)
 
         call.enqueue(object : Callback<cudResponse> {
             override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
@@ -111,6 +106,8 @@ class EditAddressForm : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     }, 3000)
+                } else {
+                    Log.d("Not Success", response.toString())
                 }
             }
 

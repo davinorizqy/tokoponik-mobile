@@ -34,7 +34,6 @@ interface AddressService {
     fun updateAddress(
 //        @Body data: Address
         @Path("id") id: Int,
-        @Field("id") idField: Int,
         @Field("user_id") user_id: Int,
 //        @Field("receiver_name") receiver_name: String,
         @Field("address") address: String,
