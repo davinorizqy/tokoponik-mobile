@@ -58,37 +58,8 @@
                     android:background="@drawable/outline"
                     android:hint="Alamat"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kecamatan"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="15dp"
-                    />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/outline"
-                    android:hint="Kecamatan"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kota"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="15dp"
-                    />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/outline"
-                    android:hint="Kota"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_address"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,7 +74,40 @@
                     android:background="@drawable/outline"
                     android:hint="Provinsi"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_province"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kabupaten/Kota"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline"
+                    android:hint="Kota"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_district"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kecamatan"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/outline"
+                    android:hint="Kota"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_subdistrict"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,7 +123,8 @@
                     android:hint="Kode Pos"
                     android:padding="10dp"
                     android:inputType="number"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_postcode"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -135,7 +140,8 @@
                     android:hint="Catatan"
                     android:inputType="textMultiLine"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/et_note"/>
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
