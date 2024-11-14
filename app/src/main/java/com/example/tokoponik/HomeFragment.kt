@@ -2,12 +2,25 @@ package com.example.tokoponik
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tokoponik.helper.SessionManager
+import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.adapter.ProductAdapter
+import com.example.tokoponik.restapi.models.product.Product
+import com.example.tokoponik.restapi.models.product.getResponse
+import com.example.tokoponik.restapi.services.ProductService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,9 +44,16 @@ class HomeFragment : Fragment() {
     private lateinit var imgbtnVegetable: ImageButton
     private lateinit var imgbtnSeed: ImageButton
     private lateinit var imgbtnTools: ImageButton
+    private lateinit var recyclerView: RecyclerView
+
+    private lateinit var callGet: Call<getResponse>
+    private lateinit var sessionManager: SessionManager
+    private lateinit var productService: ProductService
+    private lateinit var productAdapter: ProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -51,6 +71,12 @@ class HomeFragment : Fragment() {
     // function intent
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.productRecyclerView)
+        productAdapter = ProductAdapter { product: Product -> productOnClick(product) }
+        recyclerView.adapter = productAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
         // Contoh penggunaan tombol untuk membuka Activity
         imgbtnCart = view.findViewById(R.id.imgbtn_to_cart)
         imgbtnCart.setOnClickListener {
@@ -87,6 +113,38 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, ViewProductCategory::class.java)
             startActivity(intent)
         }
+
+        sessionManager = SessionManager(requireContext())
+        productService = ApiClient.getProductService(sessionManager)
+
+        getProducts(6)
+    }
+
+    private fun productOnClick(product: Product) {
+        Toast.makeText(requireContext(), product.name, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getProducts (limit: Int) {
+        callGet = productService.getProductLimit(limit)
+        callGet.enqueue(object : Callback<getResponse> {
+            override fun onResponse(
+                call: Call<getResponse>,
+                response: Response<getResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Data Address", response.body()?.data.toString())
+                    productAdapter.submitList(response.body()?.data)
+                    productAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<getResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
     }
 
     companion object {
