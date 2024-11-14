@@ -16,7 +16,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
-import com.example.tokoponik.restapi.adapter.AddressAdapter
 import com.example.tokoponik.restapi.models.address.cudResponse
 import com.example.tokoponik.restapi.services.AddressService
 import retrofit2.Call
