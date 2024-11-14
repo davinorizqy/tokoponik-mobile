@@ -75,7 +75,8 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.productRecyclerView)
         productAdapter = ProductAdapter { product: Product -> productOnClick(product) }
         recyclerView.adapter = productAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
 
         // Contoh penggunaan tombol untuk membuka Activity
         imgbtnCart = view.findViewById(R.id.imgbtn_to_cart)
