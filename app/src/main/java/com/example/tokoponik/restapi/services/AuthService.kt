@@ -25,7 +25,6 @@ interface AuthService {
         @Field("password") password: String,
     ) : Call<authResponse>
 
-    @FormUrlEncoded
     @POST("logout")
     fun logout() : Call<logoutResponse>
 }

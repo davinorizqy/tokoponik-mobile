@@ -17,8 +17,6 @@ import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.models.user.authResponse
 import com.example.tokoponik.restapi.services.AuthService
-import okhttp3.Request
-import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,9 +27,9 @@ class Login : AppCompatActivity() {
     private lateinit var et_username: EditText
     private lateinit var et_password: EditText
     private lateinit var btnLogin: Button
+
     private lateinit var session: SessionManager
     private lateinit var call: Call<authResponse>
-
     private lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +72,7 @@ class Login : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Log.d("Data User", response.body()?.data!!.user.toString())
 
-                    Toast.makeText(applicationContext, "Autentikasi berhasil.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Autentikasi berhasil", Toast.LENGTH_SHORT).show()
 
                     session.saveAuthToken(response.body()?.data!!.token)
                     Log.d("Session token", session.getAuthToken().toString())
@@ -86,7 +84,7 @@ class Login : AppCompatActivity() {
                         intent.putExtra("showProfileFragment", true)
                         startActivity(intent)
                         finish()
-                    }, 3000)
+                    }, 1000)
                 } else {
                     Log.d("Not Success", response.toString())
                 }
@@ -96,7 +94,6 @@ class Login : AppCompatActivity() {
                 Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
-
         })
     }
 }
