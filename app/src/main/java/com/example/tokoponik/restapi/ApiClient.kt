@@ -3,6 +3,7 @@ package com.example.tokoponik.restapi
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.services.AddressService
 import com.example.tokoponik.restapi.services.AuthService
+import com.example.tokoponik.restapi.services.ProductService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -46,5 +47,9 @@ object ApiClient {
 
     fun getAddressService(session: SessionManager): AddressService {
         return getRetrofit(session).create(AddressService::class.java)
+    }
+
+    fun getProductService(session: SessionManager): ProductService {
+        return getRetrofit(session).create(ProductService::class.java)
     }
 }
