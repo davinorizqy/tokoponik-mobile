@@ -1,3 +1,5 @@
+### Create a kotlin object file and copy this code, then put your base url in BASE_URL variable ###
+
 package com.example.tokoponik.restapi
 
 import com.example.tokoponik.helper.SessionManager
