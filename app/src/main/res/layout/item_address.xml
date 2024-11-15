@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="305dp"
+            android:layout_marginLeft="245dp"
             >
             <ImageButton
                 android:layout_width="wrap_content"
@@ -61,6 +61,12 @@
             android:text="Kode pos"
             android:textSize="15sp"
             android:id="@+id/tv_postcode"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Note"
+            android:textSize="15sp"
+            android:id="@+id/tv_note"/>
         <CheckBox
             android:id="@+id/checkbox_default"
             android:layout_width="wrap_content"

@@ -27,6 +27,7 @@ class EditAddressForm : AppCompatActivity() {
     private lateinit var imgbtnBack: ImageButton
     private lateinit var btnUpdateAddress: Button
 
+    private lateinit var etReceivername: EditText
     private lateinit var etAddress: EditText
     private lateinit var etProvince: EditText
     private lateinit var etDistrict: EditText
@@ -56,6 +57,7 @@ class EditAddressForm : AppCompatActivity() {
             startActivity(intent)
         }
 
+        etReceivername = findViewById(R.id.et_receivername)
         etAddress = findViewById(R.id.et_address)
         etProvince = findViewById(R.id.et_province)
         etDistrict = findViewById(R.id.et_district)
@@ -68,6 +70,7 @@ class EditAddressForm : AppCompatActivity() {
 
         val address = intent.getParcelableExtra<Address>("address_data")
         address?.let {
+            etReceivername.setText(it.receiver_name)
             etAddress.setText(it.address)
             etProvince.setText(it.province)
             etDistrict.setText(it.district)
@@ -77,15 +80,17 @@ class EditAddressForm : AppCompatActivity() {
         }
 
         btnUpdateAddress.setOnClickListener {
-            if (etAddress.text.isNullOrBlank() || etProvince.text.isNullOrBlank() ||
-                etDistrict.text.isNullOrBlank() || etSubdistrict.text.isNullOrBlank() ||
-                etPostcode.text.isNullOrBlank() || etNote.text.isNullOrBlank()
+            if (etReceivername.text.isNullOrBlank() || etAddress.text.isNullOrBlank() ||
+                etProvince.text.isNullOrBlank() || etDistrict.text.isNullOrBlank() ||
+                etSubdistrict.text.isNullOrBlank() || etPostcode.text.isNullOrBlank() ||
+                etNote.text.isNullOrBlank()
             ) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 if (address != null) {
                     updateAddress(
-                        address.id, address.user_id,
+                        address.id,
+                        etReceivername.text.toString(),
                         etAddress.text.toString(),
                         etProvince.text.toString(),
                         etDistrict.text.toString(),
@@ -98,9 +103,9 @@ class EditAddressForm : AppCompatActivity() {
         }
     }
 
-    private fun updateAddress(id: Int, user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
+    private fun updateAddress(id: Int, receiver_name: String, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
         call = addressService.updateAddress(
-            id, user_id, address, province, district, subdistrict, post_code, note)
+            id, receiver_name, address, province, district, subdistrict, post_code, note)
 
         call.enqueue(object : Callback<cudResponse> {
             override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
