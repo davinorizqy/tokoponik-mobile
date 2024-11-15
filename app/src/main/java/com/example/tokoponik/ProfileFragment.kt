@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.models.user.User
 import com.example.tokoponik.restapi.models.user.logoutResponse
 import com.example.tokoponik.restapi.models.user.userResponse
 import com.example.tokoponik.restapi.services.AuthService
@@ -38,6 +39,8 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var user: User? = null
 
     //variabel button
     private lateinit var btnToEditAccount: Button
@@ -83,13 +86,25 @@ class ProfileFragment : Fragment() {
         imgbtnLogout = view.findViewById(R.id.imgbtn_logout)
         btnToAddress = view.findViewById(R.id.btn_to_address)
 
+        tvUsername = view.findViewById(R.id.tv_username)
+        tvName = view.findViewById(R.id.tv_name)
+        tvPhonenumber = view.findViewById(R.id.tv_phonenumber)
+
         btnToEditAccount.setOnClickListener {
             val intent = Intent(activity, EditAccount::class.java)
             startActivity(intent)
         }
         btnToEditProfile.setOnClickListener {
-            val intent = Intent(activity, EditProfile::class.java)
-            startActivity(intent)
+            Log.d("User Data", user.toString())
+            if (user != null) {
+                val intent = Intent(activity, EditProfile::class.java)
+
+                intent.putExtra("user", user)
+
+                startActivity(intent)
+            } else {
+                Toast.makeText(requireContext(), "User info not available", Toast.LENGTH_SHORT).show()
+            }
         }
         imgbtnLogout.setOnClickListener {
             AlertDialog.Builder(requireContext())
@@ -112,26 +127,21 @@ class ProfileFragment : Fragment() {
         session= SessionManager(requireContext())
         userService = ApiClient.getUserService(session)
 
-        tvUsername = view.findViewById(R.id.tv_username)
-        tvName = view.findViewById(R.id.tv_name)
-        tvPhonenumber = view.findViewById(R.id.tv_phonenumber)
-
         getUserInfo()
     }
 
     private fun getUserInfo() {
         callUser = userService.getUserInfo()
-        
+
         callUser.enqueue(object : Callback<userResponse> {
             override fun onResponse(call: Call<userResponse>, response: Response<userResponse>) {
                 if (response.isSuccessful) {
                     Log.d("Data Product", response.body()?.data.toString())
-                    val user = response.body()?.data // Assuming 'data' is the object holding the user's info
+                    user = response.body()?.data
                     if (user != null) {
-                        tvUsername.text = user.username
-                        tvName.text = user.name
-
-                        val formattedPhoneNumber = formatPhoneNumber(user.phone_number)
+                        tvUsername.text = user?.username
+                        tvName.text = user?.name
+                        val formattedPhoneNumber = formatPhoneNumber(user?.phone_number ?: "")
                         tvPhonenumber.text = formattedPhoneNumber
                     }
                 } else {
@@ -143,7 +153,6 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
-
         })
     }
 
