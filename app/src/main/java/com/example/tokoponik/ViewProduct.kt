@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
@@ -40,7 +41,7 @@ class ViewProduct : AppCompatActivity() {
         recyclerView = findViewById(R.id.productRecyclerView)
         productAdapter = ProductAdapter { product: Product -> productOnClick(product) }
         recyclerView.adapter = productAdapter
-        recyclerView.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

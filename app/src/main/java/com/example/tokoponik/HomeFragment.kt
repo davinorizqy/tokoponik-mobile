@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.BlogAdapter
@@ -83,7 +84,7 @@ class HomeFragment : Fragment() {
         productRecyclerView = view.findViewById(R.id.productRecyclerView)
         productAdapter = ProductAdapter { product: Product -> productOnClick(product) }
         productRecyclerView.adapter = productAdapter
-        productRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        productRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         blogRecyclerView = view.findViewById(R.id.blogRecyclerView)
         blogAdapter = BlogAdapter { blog: Blog -> blogOnClick(blog) }
