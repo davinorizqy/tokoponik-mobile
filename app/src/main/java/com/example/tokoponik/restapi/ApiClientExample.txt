@@ -1,16 +1,19 @@
+### Create a kotlin object file and copy this code, then put your base url in BASE_URL variable ###
+
 package com.example.tokoponik.restapi
 
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.services.AddressService
 import com.example.tokoponik.restapi.services.AuthService
 import com.example.tokoponik.restapi.services.ProductService
+import com.example.tokoponik.restapi.services.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "http://10.0.2.2:8000/api/"
+    private const val BASE_URL = // your base url
 
     private fun getOkHttpClient(session: SessionManager): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
@@ -43,6 +46,10 @@ object ApiClient {
 
     fun getAuthService(session: SessionManager): AuthService {
         return getRetrofit(session).create(AuthService::class.java)
+    }
+
+    fun getUserService(session: SessionManager): UserService {
+        return getRetrofit(session).create(UserService::class.java)
     }
 
     fun getAddressService(session: SessionManager): AddressService {

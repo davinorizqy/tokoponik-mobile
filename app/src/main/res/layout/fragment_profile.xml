@@ -53,7 +53,9 @@
             android:background="@drawable/outline"
             android:text="Username Seseorang"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_username"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +71,8 @@
             android:text="**********"
             android:padding="10dp"
             android:layout_marginTop="10dp"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -89,7 +92,9 @@
             android:background="@drawable/outline"
             android:text="Nama Seseorang"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_name"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +109,9 @@
             android:background="@drawable/outline"
             android:text="0812-3456-7890"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_phonenumber"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,7 +131,8 @@
                 android:text="Edit Profil"
                 android:textSize="15sp"
                 android:backgroundTint="@color/green"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                />
         </LinearLayout>
         <Button
             android:layout_width="match_parent"
@@ -133,8 +141,7 @@
             android:textSize="15sp"
             android:backgroundTint="@color/green"
             android:layout_marginTop="10dp"
-            android:id="@+id/btn_to_address"/>
-
+            android:id="@+id/btn_to_address"
+            />
     </LinearLayout>
-
 </FrameLayout>

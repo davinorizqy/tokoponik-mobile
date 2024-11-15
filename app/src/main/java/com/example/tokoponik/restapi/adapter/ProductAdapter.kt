@@ -42,13 +42,14 @@ class ProductAdapter (
 
         fun bind(product: Product) {
             currentProduct = product
+            Log.d("Products Data", product.toString())
+
             tv_name.text = product.name
             tv_rating.text = product.average_rating.toString()
             tv_review.text = "Review"
-            Log.d("pic path", product.toString())
 
             // product pic
-//            Picasso.get().load(product.product_pic[0].path).into(pic_product)
+            Picasso.get().load(product.product_pics[0].path).into(pic_product)
 
             //product price
             val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)

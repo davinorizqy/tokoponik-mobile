@@ -10,7 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-// SEMUA ENDPOIN NANTI DITAMBAHIN "auth/" DI DEPANNYA PAS FUNGSI LOGIN UDAH JADI
 interface AddressService {
     @GET("auth/addresses/id/user")
     fun getUserAddress(): Call<getResponse>
@@ -18,9 +17,7 @@ interface AddressService {
     @FormUrlEncoded
     @POST("auth/addresses/store")
     fun storeAddress(
-//        @Body data: Address
-        @Field("user_id") user_id: Int,
-//        @Field("receiver_name") receiver_name: String,
+        @Field("receiver_name") receiver_name: String,
         @Field("address") address: String,
         @Field("province") province: String,
         @Field("district") district: String,
@@ -32,16 +29,14 @@ interface AddressService {
     @FormUrlEncoded
     @POST("auth/addresses/{id}/update")
     fun updateAddress(
-//        @Body data: Address
         @Path("id") id: Int,
-        @Field("user_id") user_id: Int,
-//        @Field("receiver_name") receiver_name: String,
+        @Field("receiver_name") receiver_name: String,
         @Field("address") address: String,
-        @Field("note") note: String,
         @Field("province") province: String,
         @Field("district") district: String,
         @Field("subdistrict") subdistrict: String,
         @Field("post_code") post_code: String,
+        @Field("note") note: String,
     ) : Call<cudResponse>
 
     @DELETE("auth/addresses/{id}/destroy")

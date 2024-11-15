@@ -11,12 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.models.user.logoutResponse
+import com.example.tokoponik.restapi.models.user.userResponse
 import com.example.tokoponik.restapi.services.AuthService
+import com.example.tokoponik.restapi.services.UserService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,8 +45,14 @@ class ProfileFragment : Fragment() {
     private lateinit var imgbtnLogout: ImageButton
     private lateinit var btnToAddress: Button
 
+    private lateinit var  tvUsername: TextView
+    private lateinit var  tvName: TextView
+    private lateinit var  tvPhonenumber: TextView
+
     private lateinit var session: SessionManager
-    private lateinit var call: Call<logoutResponse>
+    private lateinit var callUser: Call<userResponse>
+    private lateinit var callLogout: Call<logoutResponse>
+    private lateinit var userService: UserService
     private lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,21 +108,64 @@ class ProfileFragment : Fragment() {
             val intent = Intent(activity, ViewAddress::class.java)
             startActivity(intent)
         }
+
+        session= SessionManager(requireContext())
+        userService = ApiClient.getUserService(session)
+
+        tvUsername = view.findViewById(R.id.tv_username)
+        tvName = view.findViewById(R.id.tv_name)
+        tvPhonenumber = view.findViewById(R.id.tv_phonenumber)
+
+        getUserInfo()
+    }
+
+    private fun getUserInfo() {
+        callUser = userService.getUserInfo()
+        
+        callUser.enqueue(object : Callback<userResponse> {
+            override fun onResponse(call: Call<userResponse>, response: Response<userResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("Data Product", response.body()?.data.toString())
+                    val user = response.body()?.data // Assuming 'data' is the object holding the user's info
+                    if (user != null) {
+                        tvUsername.text = user.username
+                        tvName.text = user.name
+
+                        val formattedPhoneNumber = formatPhoneNumber(user.phone_number)
+                        tvPhonenumber.text = formattedPhoneNumber
+                    }
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<userResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+
+        })
+    }
+
+    private fun formatPhoneNumber(phoneNumber: String): String {
+        return if (phoneNumber.startsWith("0")) {
+            "+62 ${phoneNumber.substring(1)}"
+        } else {
+            phoneNumber // In case the phone number is already formatted or valid
+        }
     }
 
     private fun logout() {
-        call = authService.logout()
+        callLogout = authService.logout()
 
-        call.enqueue(object : Callback<logoutResponse> {
+        callLogout.enqueue(object : Callback<logoutResponse> {
             override fun onResponse(
                 call: Call<logoutResponse>,
                 response: Response<logoutResponse>
             ) {
                 if (response.isSuccessful) {
-                    // Clear session data
                     session.clearAuthToken()
 
-                    // Inform user and redirect to login
                     Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
 
                     Handler(Looper.getMainLooper()).postDelayed({

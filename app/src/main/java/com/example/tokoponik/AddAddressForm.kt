@@ -26,6 +26,7 @@ class AddAddressForm : AppCompatActivity() {
 
     private lateinit var imgbtnBack: ImageButton
     private lateinit var btnAddAddress: Button
+    private lateinit var etReceivername: EditText
     private lateinit var etAddress: EditText
     private lateinit var etProvince: EditText
     private lateinit var etDistrict: EditText
@@ -51,6 +52,7 @@ class AddAddressForm : AppCompatActivity() {
         imgbtnBack = findViewById(R.id.imgbtn_back)
         btnAddAddress = findViewById(R.id.btn_add_address)
 
+        etReceivername = findViewById(R.id.et_receivername)
         etAddress = findViewById(R.id.et_address)
         etProvince = findViewById(R.id.et_province)
         etDistrict = findViewById(R.id.et_district)
@@ -63,22 +65,26 @@ class AddAddressForm : AppCompatActivity() {
             startActivity(intent)
         }
         btnAddAddress.setOnClickListener{
-            storeAddress(1,
+            storeAddress(
+                etReceivername.text.toString(),
                 etAddress.text.toString(),
                 etProvince.text.toString(),
                 etDistrict.text.toString(),
                 etSubdistrict.text.toString(),
                 etPostcode.text.toString(),
-                etNote.text.toString())
+                etNote.text.toString()
+            )
         }
 
         sessionManager = SessionManager(this)
         addressService = ApiClient.getAddressService(sessionManager)
     }
 
-    private fun storeAddress(user_id: Int, address: String, province: String, district: String, subdistrict: String, post_code: String, note: String) {
-        call = addressService.storeAddress(
-            user_id, address, province, district, subdistrict, post_code, note)
+    private fun storeAddress(
+        receiver_name: String, address: String, province: String,
+        district: String, subdistrict: String, post_code: String, note: String
+    ) {
+        call = addressService.storeAddress(receiver_name, address, province, district, subdistrict, post_code, note)
 
         call.enqueue(object : Callback<cudResponse> {
             override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {

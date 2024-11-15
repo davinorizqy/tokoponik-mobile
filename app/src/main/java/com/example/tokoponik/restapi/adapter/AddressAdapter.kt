@@ -20,9 +20,11 @@ class AddressAdapter(
     inner class AddressViewHolder(itemView: View, val onClick: (Address) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
+        private val tv_receivername: TextView = itemView.findViewById(R.id.tv_receivername)
         private val tv_address: TextView = itemView.findViewById(R.id.tv_address)
         private val tv_detail: TextView = itemView.findViewById(R.id.tv_detail)
         private val tv_postcode: TextView = itemView.findViewById(R.id.tv_postcode)
+        private val tv_note: TextView = itemView.findViewById(R.id.tv_note)
 
         val editButton: ImageButton = itemView.findViewById(R.id.imgbtn_edit)
         val deleteButton: ImageButton = itemView.findViewById(R.id.imgbtn_delete)
@@ -48,9 +50,11 @@ class AddressAdapter(
 
         fun bind(address: Address) {
             currentAddress = address
+            tv_receivername.text = address.receiver_name
             tv_address.text = address.address
             tv_detail.text = "${address.subdistrict}, ${address.district}, ${address.province}"
             tv_postcode.text = address.post_code
+            tv_note.text = address.note
         }
     }
 

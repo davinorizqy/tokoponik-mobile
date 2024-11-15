@@ -35,7 +35,9 @@
             android:background="@drawable/outline"
             android:hint="Masukkan nama pengguna"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/et_username"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +53,9 @@
             android:background="@drawable/outline"
             android:hint="Masukkan nama lengkap"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/et_name"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +71,9 @@
             android:background="@drawable/outline"
             android:hint="Masukkan nomor telepon"
             android:padding="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/et_phonenumber"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,13 +94,16 @@
                 android:background="@drawable/outline"
                 android:hint="Masukkan password"
                 android:padding="10dp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:id="@+id/et_password"
+                />
             <ImageButton
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_eye"/>
+                android:background="@drawable/ic_eye"
+                />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -116,13 +125,16 @@
                 android:background="@drawable/outline"
                 android:hint="Masukkan ulang password"
                 android:padding="10dp"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:id="@+id/et_confirm"
+                />
             <ImageButton
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_eye"/>
+                android:background="@drawable/ic_eye"
+                />
         </LinearLayout>
         <Button
             android:layout_width="match_parent"
