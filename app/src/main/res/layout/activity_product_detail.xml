@@ -89,19 +89,6 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tersedia:"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"/>
-                <TextView
-                    android:id="@+id/total_product"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
