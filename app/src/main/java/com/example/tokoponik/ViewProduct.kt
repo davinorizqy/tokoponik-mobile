@@ -15,7 +15,7 @@ import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.ProductAdapter
 import com.example.tokoponik.restapi.models.product.Product
-import com.example.tokoponik.restapi.models.product.getResponse
+import com.example.tokoponik.restapi.models.product.productResponse
 import com.example.tokoponik.restapi.services.ProductService
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +27,7 @@ class ViewProduct : AppCompatActivity() {
     private lateinit var imgbtn_cart: ImageButton
     private lateinit var recyclerView: RecyclerView
 
-    private lateinit var callGet: Call<getResponse>
+    private lateinit var callGet: Call<productResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var productService: ProductService
     private lateinit var productAdapter: ProductAdapter
@@ -67,18 +67,20 @@ class ViewProduct : AppCompatActivity() {
     }
 
     private fun productOnClick(product: Product) {
-        Toast.makeText(applicationContext, product.name, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ProductDetail::class.java)
+        intent.putExtra("product_id", product.id)
+        startActivity(intent)
     }
 
     private fun getProducts () {
         callGet = productService.getAllProduct()
-        callGet.enqueue(object : Callback<getResponse> {
+        callGet.enqueue(object : Callback<productResponse> {
             override fun onResponse(
-                call: Call<getResponse>,
-                response: Response<getResponse>
+                call: Call<productResponse>,
+                response: Response<productResponse>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("Data Address", response.body()?.data.toString())
+                    Log.d("Data Product", response.body()?.data.toString())
                     productAdapter.submitList(response.body()?.data)
                     productAdapter.notifyDataSetChanged()
                 } else {
@@ -86,7 +88,7 @@ class ViewProduct : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<getResponse>, t: Throwable) {
+            override fun onFailure(call: Call<productResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
