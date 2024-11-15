@@ -7,5 +7,5 @@ data class Product (
     val description: String,
     val type: String,
     val average_rating: Int,
-    val product_pic: List<ProductPic>,
+    val product_pics: List<ProductPic>,
 )
