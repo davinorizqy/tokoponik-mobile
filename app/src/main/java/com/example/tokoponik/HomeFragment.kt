@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.adapter.BlogAdapter
 import com.example.tokoponik.restapi.adapter.ProductAdapter
+import com.example.tokoponik.restapi.models.blog.Blog
+import com.example.tokoponik.restapi.models.blog.blogResponse
 import com.example.tokoponik.restapi.models.product.Product
-import com.example.tokoponik.restapi.models.product.getResponse
+import com.example.tokoponik.restapi.models.product.productResponse
+import com.example.tokoponik.restapi.services.BlogService
 import com.example.tokoponik.restapi.services.ProductService
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,12 +48,16 @@ class HomeFragment : Fragment() {
     private lateinit var imgbtnVegetable: ImageButton
     private lateinit var imgbtnSeed: ImageButton
     private lateinit var imgbtnTools: ImageButton
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var productRecyclerView: RecyclerView
+    private lateinit var blogRecyclerView: RecyclerView
 
-    private lateinit var callGet: Call<getResponse>
+    private lateinit var callProduct: Call<productResponse>
+    private lateinit var callBlog: Call<blogResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var productService: ProductService
+    private lateinit var blogService: BlogService
     private lateinit var productAdapter: ProductAdapter
+    private lateinit var blogAdapter: BlogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,10 +80,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.productRecyclerView)
+        productRecyclerView = view.findViewById(R.id.productRecyclerView)
         productAdapter = ProductAdapter { product: Product -> productOnClick(product) }
-        recyclerView.adapter = productAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        productRecyclerView.adapter = productAdapter
+        productRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        blogRecyclerView = view.findViewById(R.id.blogRecyclerView)
+        blogAdapter = BlogAdapter { blog: Blog -> blogOnClick(blog) }
+        blogRecyclerView.adapter = blogAdapter
+        blogRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         // Contoh penggunaan tombol untuk membuka Activity
         imgbtnCart = view.findViewById(R.id.imgbtn_to_cart)
@@ -116,8 +129,10 @@ class HomeFragment : Fragment() {
 
         sessionManager = SessionManager(requireContext())
         productService = ApiClient.getProductService(sessionManager)
+        blogService = ApiClient.getBlogService(sessionManager)
 
         getProducts(6)
+        getBlogs()
     }
 
     private fun productOnClick(product: Product) {
@@ -125,14 +140,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun getProducts (limit: Int) {
-        callGet = productService.getProductLimit(limit)
-        callGet.enqueue(object : Callback<getResponse> {
+        callProduct = productService.getProductLimit(limit)
+        callProduct.enqueue(object : Callback<productResponse> {
             override fun onResponse(
-                call: Call<getResponse>,
-                response: Response<getResponse>
+                call: Call<productResponse>,
+                response: Response<productResponse>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("Data Address", response.body()?.data.toString())
+                    Log.d("Data Product", response.body()?.data.toString())
                     productAdapter.submitList(response.body()?.data)
                     productAdapter.notifyDataSetChanged()
                 } else {
@@ -140,7 +155,34 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<getResponse>, t: Throwable) {
+            override fun onFailure(call: Call<productResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
+    }
+
+    private fun blogOnClick(blog: Blog) {
+        Toast.makeText(requireContext(), blog.title, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getBlogs () {
+        callBlog = blogService.getAllBlogs()
+        callBlog.enqueue(object : Callback<blogResponse> {
+            override fun onResponse(
+                call: Call<blogResponse>,
+                response: Response<blogResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Data Blog", response.body()?.data.toString())
+                    blogAdapter.submitList(response.body()?.data)
+                    blogAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<blogResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
