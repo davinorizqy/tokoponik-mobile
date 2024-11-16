@@ -108,7 +108,7 @@
                     />
             </LinearLayout>
 
-            <!-- RecyclerView untuk Daftar Produk -->
+            <!-- RecyclerView untuk Daftar Produk (item_transaction_product -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactiondetailRecyclerView"
                 android:layout_width="match_parent"
@@ -184,15 +184,22 @@
                     android:layout_marginStart="70dp"
                     />
             </LinearLayout>
-
+            <Button
+                android:id="@+id/btn_to_addproof"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tambahkan Bukti Pembayaran"
+                android:backgroundTint="@color/green"
+                android:layout_marginTop="16dp"/>
             <Button
                 android:id="@+id/btn_to_rateform"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nilai"
                 android:backgroundTint="@color/green"
-                android:textColor="#FFFFFF"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:layout_gravity="right"
+                />
         </LinearLayout>
     </ScrollView>
 

@@ -14,6 +14,7 @@ class TransactionDetail : AppCompatActivity() {
     private lateinit var imgBtnToTransaction: ImageButton
     private lateinit var btnToRate: Button
     private lateinit var imgBtnToCart: ImageButton
+    private lateinit var btnToAddProof: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,5 +46,22 @@ class TransactionDetail : AppCompatActivity() {
             val intent = Intent(this, Cart::class.java)
             startActivity(intent)
         }
+
+        btnToAddProof = findViewById(R.id.btn_to_addproof)
+        btnToAddProof.setOnClickListener {
+            val intent = Intent(this, AddProof::class.java)
+            startActivity(intent)
+        }
+
+//        val transactionStatus = getTransactionStatus() // Replace with actual method to get status
+//        if (transactionStatus == "pending") {
+//            btnToAddProof.visibility = View.VISIBLE
+//            btnToAddProof.setOnClickListener {
+//                val intent = Intent(this, AddProof::class.java)
+//                startActivity(intent)
+//            }
+//        } else {
+//            btnToAddProof.visibility = View.GONE
+//        }
     }
 }
