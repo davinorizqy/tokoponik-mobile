@@ -3,6 +3,7 @@ package com.example.tokoponik
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -25,6 +26,7 @@ import com.example.tokoponik.restapi.models.rating.ratingResponse
 import com.example.tokoponik.restapi.models.wishlist.cudResponse
 import com.example.tokoponik.restapi.services.RatingService
 import com.example.tokoponik.restapi.services.WishlistService
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,6 +40,7 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var imgbtnToCart: ImageButton
     private lateinit var btnToReview: Button
     private lateinit var btnWishlist: Button
+    private lateinit var btnAddToCart: Button
 
     private lateinit var picProduct: ImageView
     private lateinit var tvName: TextView
@@ -117,8 +120,7 @@ class ProductDetail : AppCompatActivity() {
             tvType.text = product.type.replaceFirstChar { it.uppercase() }
             tvDesc.text = product.description
 
-            val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)
-            tvPrice.text = formattedPrice
+            tvPrice.text = formatCurrency(product.price)
 
             getProductRating(product.id, 5)
             averageRating(product.id)
@@ -133,10 +135,82 @@ class ProductDetail : AppCompatActivity() {
                 addToWishlist(product.id)
             }
         }
+
+        btnAddToCart = findViewById(R.id.btn_add_to_cart)
+        btnAddToCart.setOnClickListener {
+            showBottomSheet()
+        }
     }
 
     private fun ratingOnCLick(rating: Rating) {
         Log.d("Rating", rating.toString())
+    }
+
+    fun showBottomSheet() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottomsheet_addtocart, null)
+
+        val btnMinus = view.findViewById<ImageButton>(R.id.imgbtn_minus)
+        val btnPlus = view.findViewById<ImageButton>(R.id.imgbtn_plus)
+        val tvQuantity = view.findViewById<TextView>(R.id.tv_quantity)
+        val tvTotalPrice = view.findViewById<TextView>(R.id.tv_total_price)
+        val imgbtnClose = view.findViewById<ImageButton>(R.id.imgbtn_close)
+        val btnApply = view.findViewById<Button>(R.id.btn_apply)
+
+        var quantity = 1
+        val price = intent.getParcelableExtra<Product>("product")?.price ?: 0
+        tvTotalPrice.text = formatCurrency(quantity * price)
+
+        // Function to update minus button color dynamically
+        fun updateMinusButtonColor() {
+            if (quantity > 1) {
+                btnMinus.imageTintList = getColorStateList(R.color.green)
+            } else {
+                btnMinus.imageTintList = getColorStateList(R.color.grey)
+            }
+        }
+
+        // Initial update for minus button color
+        updateMinusButtonColor()
+
+        // Minus button click listener
+        btnMinus.setOnClickListener {
+            if (quantity > 1) {
+                quantity--
+                tvQuantity.text = quantity.toString()
+                tvTotalPrice.text = formatCurrency(quantity * price)
+                updateMinusButtonColor()
+            }
+        }
+
+        // Plus button click listener
+        btnPlus.setOnClickListener {
+            quantity++
+            tvQuantity.text = quantity.toString()
+            tvTotalPrice.text = formatCurrency(quantity * price)
+            updateMinusButtonColor()
+        }
+
+        // Close button listener
+        imgbtnClose.setOnClickListener { dialog.dismiss() }
+
+        // Apply button listener
+        btnApply.setOnClickListener {
+            Toast.makeText(this, "Added $quantity items to cart", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    private fun formatCurrency(amount: Int): String {
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        numberFormat.maximumFractionDigits = 2
+        numberFormat.minimumFractionDigits = 2
+        val formattedPrice = numberFormat.format(amount).replace("Rp", "Rp. ")
+        return formattedPrice
     }
 
     private fun getProductRating(product_id: Int, limit: Int) {
