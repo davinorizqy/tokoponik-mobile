@@ -21,13 +21,16 @@
                 android:text="Nama Pengguna"
                 android:textStyle="bold"
                 android:textSize="15sp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:id="@+id/tv_user"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tanggal Review"
                 android:textColor="#838589"
                 android:textSize="15sp"
+                android:id="@+id/tv_date"
                 />
         </LinearLayout>
         <LinearLayout
@@ -41,19 +44,21 @@
                 android:src="@drawable/ic_onestar"
                 android:background="@color/white"/>
             <TextView
-                android:id="@+id/textratingvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.6"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:id="@+id/tv_rating"
+                />
         </LinearLayout>
         <TextView
-            android:id="@+id/textreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Review"
             android:textSize="15sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_review"
+            />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

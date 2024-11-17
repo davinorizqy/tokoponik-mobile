@@ -65,14 +65,6 @@
                 android:layout_marginLeft="5dp"
                 android:id="@+id/tv_review"
                 />
-
-            <ImageButton
-                android:id="@+id/btn_wishlist"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="2dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_menu_wishlist" />
         </LinearLayout>
 
 

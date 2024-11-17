@@ -7,13 +7,22 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.restapi.models.product.Product
 import com.example.tokoponik.R
+import com.example.tokoponik.helper.SessionManager
+import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.AddressAdapter.AddressViewHolder
+import com.example.tokoponik.restapi.models.rating.averageResponse
+import com.example.tokoponik.restapi.models.rating.countResponse
+import com.example.tokoponik.restapi.services.RatingService
 import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -30,7 +39,11 @@ class ProductAdapter (
         private val tv_price: TextView = itemView.findViewById(R.id.tv_price)
         private val tv_rating: TextView = itemView.findViewById(R.id.tv_rating)
         private val tv_review: TextView = itemView.findViewById(R.id.tv_review)
-        private val btn_wishlist: ImageButton = itemView.findViewById(R.id.btn_wishlist)
+
+        private lateinit var callAvarage: Call<averageResponse>
+        private lateinit var callCount: Call<countResponse>
+        private lateinit var sessionManager: SessionManager
+        private lateinit var ratingService: RatingService
 
         private var currentProduct: Product? = null
 
@@ -45,8 +58,6 @@ class ProductAdapter (
             Log.d("Products Data", product.toString())
 
             tv_name.text = product.name
-            tv_rating.text = product.average_rating.toString()
-            tv_review.text = "Review"
 
             // product pic
             Picasso.get().load(product.product_pics[0].path).into(pic_product)
@@ -54,6 +65,50 @@ class ProductAdapter (
             //product price
             val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)
             tv_price.text = formattedPrice
+
+            sessionManager = SessionManager(itemView.context)
+            ratingService = ApiClient.getRatingService(sessionManager)
+
+            countReview(product.id)
+            averageRating(product.id)
+        }
+
+        private fun countReview(product_id: Int) {
+            callCount = ratingService.getReviewCount(product_id)
+            callCount.enqueue(object : Callback<countResponse> {
+                override fun onResponse(call: Call<countResponse>, response: Response<countResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("Data Rating", response.body()?.review_count.toString())
+                        tv_review.text = response.body()?.review_count.toString() + " Ulasan"
+                    } else {
+                        Log.d("Not Success", response.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<countResponse>, t: Throwable) {
+                    Toast.makeText(itemView.context, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                    Log.d("Error onFailure", t.localizedMessage)
+                }
+            })
+        }
+
+        private fun averageRating(product_id: Int) {
+            callAvarage = ratingService.getAverageRating(product_id)
+            callAvarage.enqueue(object : Callback<averageResponse> {
+                override fun onResponse(call: Call<averageResponse>, response: Response<averageResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("Data Rating", response.body()?.average_rating.toString())
+                        tv_rating.text = " " + response.body()?.average_rating.toString()
+                    } else {
+                        Log.d("Not Success", response.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<averageResponse>, t: Throwable) {
+                    Toast.makeText(itemView.context, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                    Log.d("Error onFailure", t.localizedMessage)
+                }
+            })
         }
     }
 

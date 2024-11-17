@@ -12,12 +12,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.adapter.RatingAdapter
 import com.example.tokoponik.restapi.models.product.Product
-import com.example.tokoponik.restapi.models.product.productResponse
-import com.example.tokoponik.restapi.services.ProductService
+import com.example.tokoponik.restapi.models.rating.Rating
+import com.example.tokoponik.restapi.models.rating.averageResponse
+import com.example.tokoponik.restapi.models.rating.countResponse
+import com.example.tokoponik.restapi.models.rating.ratingResponse
+import com.example.tokoponik.restapi.services.RatingService
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,8 +43,16 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var tvRating2: TextView
     private lateinit var tvReview1: TextView
     private lateinit var tvReview2: TextView
+    private lateinit var tvType: TextView
     private lateinit var tvDesc: TextView
-    private lateinit var reviewRecycleView: RecyclerView
+    private lateinit var ratingRecycleView: RecyclerView
+
+    private lateinit var callRating: Call<ratingResponse>
+    private lateinit var callAvarage: Call<averageResponse>
+    private lateinit var callCount: Call<countResponse>
+    private lateinit var sessionManager: SessionManager
+    private lateinit var ratingService: RatingService
+    private lateinit var ratingAdapter: RatingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +63,11 @@ class ProductDetail : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        ratingRecycleView = findViewById(R.id.ratingRecyclerView)
+        ratingAdapter = RatingAdapter { rating: Rating -> ratingOnCLick(rating) }
+        ratingRecycleView.adapter = ratingAdapter
+        ratingRecycleView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         imgbtnBackToProduct = findViewById(R.id.imgbtn_to_product)
         imgbtnBackToProduct.setOnClickListener {
@@ -69,6 +87,9 @@ class ProductDetail : AppCompatActivity() {
             startActivity(intent)
         }
 
+        sessionManager = SessionManager(this)
+        ratingService = ApiClient.getRatingService(sessionManager)
+
         val product: Product? = intent.getParcelableExtra("product")
 
         picProduct = findViewById(R.id.pic_product)
@@ -78,8 +99,8 @@ class ProductDetail : AppCompatActivity() {
         tvRating2 = findViewById(R.id.tv_rating2)
         tvReview1 = findViewById(R.id.tv_review1)
         tvReview2 = findViewById(R.id.tv_review2)
+        tvType = findViewById(R.id.tv_type)
         tvDesc = findViewById(R.id.tv_desc)
-        reviewRecycleView = findViewById(R.id.reviewRecyclerView)
 
         if (product != null) {
             Log.d("Product", product.toString())
@@ -87,16 +108,85 @@ class ProductDetail : AppCompatActivity() {
             Picasso.get().load(product.product_pics[0].path).into(picProduct)
 
             tvName.text = product.name
-            tvRating1.text = product.average_rating.toString()
-            tvRating2.text = product.average_rating.toString()
-            tvReview1.text = "88"
-            tvReview2.text = "88"
+            tvType.text = product.type.replaceFirstChar { it.uppercase() }
             tvDesc.text = product.description
 
             val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)
             tvPrice.text = formattedPrice
+
+            getProductRating(product.id, 5)
+            averageRating(product.id)
+            countReview(product.id)
         } else {
             Log.e("ProductDetail", "Invalid Product ID")
         }
+    }
+
+    private fun ratingOnCLick(rating: Rating) {
+        Log.d("Rating", rating.toString())
+    }
+
+    private fun getProductRating(product_id: Int, limit: Int) {
+//        callRating = ratingService.getProductReviewLimit(product_id, limit)
+        callRating = ratingService.getProductReview(product_id)
+        callRating.enqueue(object : Callback<ratingResponse> {
+            override fun onResponse(
+                call: Call<ratingResponse>,
+                response: Response<ratingResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Data Rating", response.body()?.data.toString())
+                    ratingAdapter.submitList(response.body()?.data)
+                    ratingAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ratingResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
+    }
+
+    private fun countReview(product_id: Int) {
+        callCount = ratingService.getReviewCount(product_id)
+        callCount.enqueue(object : Callback<countResponse> {
+            override fun onResponse(call: Call<countResponse>, response: Response<countResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("Data Rating", response.body()?.review_count.toString())
+                    tvReview1.text = response.body()?.review_count.toString() + " Ulasan"
+                    tvReview2.text = "(" + response.body()?.review_count.toString() + ")"
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<countResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
+    }
+
+    private fun averageRating(product_id: Int) {
+        callAvarage = ratingService.getAverageRating(product_id)
+        callAvarage.enqueue(object : Callback<averageResponse> {
+            override fun onResponse(call: Call<averageResponse>, response: Response<averageResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("Data Rating", response.body()?.average_rating.toString())
+                    tvRating1.text = " " + response.body()?.average_rating.toString()
+                    tvRating2.text = " " + response.body()?.average_rating.toString()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<averageResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
     }
 }

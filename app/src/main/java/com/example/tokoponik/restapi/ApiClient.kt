@@ -5,6 +5,7 @@ import com.example.tokoponik.restapi.services.AddressService
 import com.example.tokoponik.restapi.services.AuthService
 import com.example.tokoponik.restapi.services.BlogService
 import com.example.tokoponik.restapi.services.ProductService
+import com.example.tokoponik.restapi.services.RatingService
 import com.example.tokoponik.restapi.services.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -61,5 +62,9 @@ object ApiClient {
 
     fun getBlogService(session: SessionManager): BlogService {
         return getRetrofit(session).create(BlogService::class.java)
+    }
+
+    fun getRatingService(session: SessionManager): RatingService {
+        return getRetrofit(session).create(RatingService::class.java)
     }
 }
