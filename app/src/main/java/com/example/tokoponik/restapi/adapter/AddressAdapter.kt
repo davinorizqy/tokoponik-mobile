@@ -71,7 +71,7 @@ class AddressAdapter(
 
 object AddressCallBack : DiffUtil.ItemCallback<Address>() {
     override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {
-        return oldItem.id == newItem.id // Use unique identifier if available
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Address, newItem: Address): Boolean {

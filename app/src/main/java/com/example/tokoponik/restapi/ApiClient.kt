@@ -7,6 +7,7 @@ import com.example.tokoponik.restapi.services.BlogService
 import com.example.tokoponik.restapi.services.ProductService
 import com.example.tokoponik.restapi.services.RatingService
 import com.example.tokoponik.restapi.services.UserService
+import com.example.tokoponik.restapi.services.WishlistService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -66,5 +67,9 @@ object ApiClient {
 
     fun getRatingService(session: SessionManager): RatingService {
         return getRetrofit(session).create(RatingService::class.java)
+    }
+
+    fun getWishlistService(session: SessionManager): WishlistService {
+        return getRetrofit(session).create(WishlistService::class.java)
     }
 }

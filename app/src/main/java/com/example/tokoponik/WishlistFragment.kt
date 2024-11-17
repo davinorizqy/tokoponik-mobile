@@ -2,11 +2,27 @@ package com.example.tokoponik
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tokoponik.helper.SessionManager
+import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.adapter.WishlistAdapter
+import com.example.tokoponik.restapi.adapter.WishlistButtonListener
+import com.example.tokoponik.restapi.models.wishlist.Wishlist
+import com.example.tokoponik.restapi.models.wishlist.cudResponse
+import com.example.tokoponik.restapi.models.wishlist.getResponse
+import com.example.tokoponik.restapi.services.WishlistService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,10 +34,19 @@ private const val ARG_PARAM2 = "param2"
  * Use the [WishlistFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WishlistFragment : Fragment() {
+class WishlistFragment : Fragment(), WishlistButtonListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var wishlistRecyclerView: RecyclerView
+
+    private lateinit var callGet : Call<getResponse>
+    private lateinit var callCud : Call<cudResponse>
+    private lateinit var sessionManager: SessionManager
+    private lateinit var wishlistService: WishlistService
+    private lateinit var wishlistAdapter: WishlistAdapter
+
 
     //variabel button
     private lateinit var imgbtnCart: ImageButton
@@ -51,6 +76,87 @@ class WishlistFragment : Fragment() {
             val intent = Intent(activity, Cart::class.java)
             startActivity(intent)
         }
+
+        wishlistRecyclerView = view.findViewById(R.id.wishlistRecyclerView)
+        wishlistAdapter = WishlistAdapter(
+            listener = this,
+            onClick = { wishlist: Wishlist -> wishlistOnClick(wishlist) }
+        )
+        wishlistRecyclerView.adapter = wishlistAdapter
+        wishlistRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        sessionManager = SessionManager(requireContext())
+        wishlistService = ApiClient.getWishlistService(sessionManager)
+
+        getWishlist()
+    }
+
+    private fun wishlistOnClick(wishlist: Wishlist) {
+        val intent = Intent(activity, ProductDetail::class.java)
+        intent.putExtra("product", wishlist.product)
+        startActivity(intent)
+    }
+
+    override fun onDeleteClick(position: Int) {
+        val wishlist = wishlistAdapter.currentList[position]
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("Kamu yakin ingin menghapus produk ini dari wishlist?")
+            .setPositiveButton("Delete") { dialog, _ ->
+                deleteWishlist(wishlist.id)
+                Toast.makeText(requireContext(), "Removing product ...", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun getWishlist() {
+        callGet = wishlistService.getWishlist()
+        callGet.enqueue(object : Callback<getResponse> {
+            override fun onResponse(
+                call: Call<getResponse>,
+                response: Response<getResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Data Product", response.body()?.data.toString())
+                    wishlistAdapter.submitList(response.body()?.data)
+                    wishlistAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<getResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
+    }
+
+    private fun deleteWishlist(id: Int) {
+        callCud = wishlistService.removeFromWishlist(id)
+        callCud.enqueue(object : Callback<cudResponse> {
+            override fun onResponse(
+                call: Call<cudResponse>,
+                response: Response<cudResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Produk berhasil di hapus", Toast.LENGTH_SHORT).show()
+                    getWishlist()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<cudResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
     }
 
     companion object {
