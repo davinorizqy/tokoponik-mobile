@@ -38,7 +38,7 @@
             </LinearLayout>
             <!--Nampilin item_wishlist-->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/transactionRecyclerView"
+                android:id="@+id/wishlistRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"/>

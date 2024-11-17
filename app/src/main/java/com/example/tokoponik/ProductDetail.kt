@@ -22,7 +22,9 @@ import com.example.tokoponik.restapi.models.rating.Rating
 import com.example.tokoponik.restapi.models.rating.averageResponse
 import com.example.tokoponik.restapi.models.rating.countResponse
 import com.example.tokoponik.restapi.models.rating.ratingResponse
+import com.example.tokoponik.restapi.models.wishlist.cudResponse
 import com.example.tokoponik.restapi.services.RatingService
+import com.example.tokoponik.restapi.services.WishlistService
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,6 +37,7 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var imgbtnBackToProduct: ImageButton
     private lateinit var imgbtnToCart: ImageButton
     private lateinit var btnToReview: Button
+    private lateinit var btnWishlist: Button
 
     private lateinit var picProduct: ImageView
     private lateinit var tvName: TextView
@@ -50,9 +53,11 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var callRating: Call<ratingResponse>
     private lateinit var callAvarage: Call<averageResponse>
     private lateinit var callCount: Call<countResponse>
+    private lateinit var callWishlist: Call<cudResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var ratingService: RatingService
     private lateinit var ratingAdapter: RatingAdapter
+    private lateinit var wishlistService: WishlistService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +94,7 @@ class ProductDetail : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
         ratingService = ApiClient.getRatingService(sessionManager)
+        wishlistService = ApiClient.getWishlistService(sessionManager)
 
         val product: Product? = intent.getParcelableExtra("product")
 
@@ -119,6 +125,13 @@ class ProductDetail : AppCompatActivity() {
             countReview(product.id)
         } else {
             Log.e("ProductDetail", "Invalid Product ID")
+        }
+
+        btnWishlist = findViewById(R.id.btn_wishlist)
+        btnWishlist.setOnClickListener {
+            if (product != null) {
+                addToWishlist(product.id)
+            }
         }
     }
 
@@ -187,6 +200,25 @@ class ProductDetail : AppCompatActivity() {
                 Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
+        })
+    }
+
+    private fun addToWishlist(product_id: Int) {
+        callWishlist = wishlistService.addToWishlist(product_id)
+        callWishlist.enqueue(object : Callback<cudResponse> {
+            override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(applicationContext, "Produk berhasil ditambahkan ke wishlist", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<cudResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+
         })
     }
 }
