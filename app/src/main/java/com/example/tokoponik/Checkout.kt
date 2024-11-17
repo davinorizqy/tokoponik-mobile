@@ -3,6 +3,7 @@ package com.example.tokoponik
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 class Checkout : AppCompatActivity() {
 
     private lateinit var imgbtn_cart: ImageButton
-    private lateinit var tv_change_address: TextView
-    private lateinit var tv_change_bank: TextView
+    private lateinit var spinner_address: Spinner
+    private lateinit var spinner_bank: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +32,7 @@ class Checkout : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tv_change_address = findViewById(R.id.tv_change_address)
-        tv_change_address.setOnClickListener {
-            val intent = Intent(this, ViewAddress::class.java)
-            startActivity(intent)
-        }
-
-        tv_change_bank = findViewById(R.id.tv_change_bank)
-        tv_change_bank.setOnClickListener {
-            val intent = Intent(this, ViewBank::class.java)
-            startActivity(intent)
-        }
+        spinner_address = findViewById(R.id.spinner_address)
+        spinner_bank = findViewById(R.id.spinner_bank)
     }
 }
