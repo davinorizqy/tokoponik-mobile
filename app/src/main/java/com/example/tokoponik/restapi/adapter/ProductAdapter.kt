@@ -63,7 +63,10 @@ class ProductAdapter (
             Picasso.get().load(product.product_pics[0].path).into(pic_product)
 
             //product price
-            val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)
+            val numberFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+            numberFormat.maximumFractionDigits = 2
+            numberFormat.minimumFractionDigits = 2
+            val formattedPrice = numberFormat.format(product.price).replace("Rp", "Rp. ")
             tv_price.text = formattedPrice
 
             sessionManager = SessionManager(itemView.context)
