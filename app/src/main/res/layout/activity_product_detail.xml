@@ -194,7 +194,8 @@
                     android:layout_height="match_parent"
                     android:text="Tambahkan ke Keranjang"
                     android:backgroundTint="@color/green"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:onClick="showBottomSheet"/>
             </LinearLayout>
 
         </LinearLayout>

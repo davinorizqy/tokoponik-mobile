@@ -77,6 +77,7 @@
                     android:background="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
+                    android:onClick="showBottomSheet"
                     />
             </LinearLayout>
             <!--Nampilin item_product-->

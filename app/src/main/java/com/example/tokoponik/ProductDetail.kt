@@ -3,6 +3,7 @@ package com.example.tokoponik
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -23,6 +24,7 @@ import com.example.tokoponik.restapi.models.rating.averageResponse
 import com.example.tokoponik.restapi.models.rating.countResponse
 import com.example.tokoponik.restapi.models.rating.ratingResponse
 import com.example.tokoponik.restapi.services.RatingService
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -188,5 +190,21 @@ class ProductDetail : AppCompatActivity() {
                 Log.d("Error onFailure", t.localizedMessage)
             }
         })
+    }
+
+    fun showBottomSheet(view: View) {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottomsheet_addtocart, null)
+        val imgbtnClose = view.findViewById<View>(R.id.imgbtn_close)
+        val btnApply = view.findViewById<View>(R.id.btn_apply)
+        btnApply.setOnClickListener {
+            dialog.dismiss()
+        }
+        imgbtnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
     }
 }

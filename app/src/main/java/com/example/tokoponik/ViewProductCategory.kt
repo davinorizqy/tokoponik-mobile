@@ -2,11 +2,13 @@ package com.example.tokoponik
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ViewProductCategory : AppCompatActivity() {
 
@@ -34,5 +36,21 @@ class ViewProductCategory : AppCompatActivity() {
             val intent = Intent(this, Cart::class.java)
             startActivity(intent)
         }
+    }
+
+    fun showBottomSheet(view: View) {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottomsheet_filtersorting, null)
+        val imgbtnClose = view.findViewById<View>(R.id.imgbtn_close)
+        val btnApply = view.findViewById<View>(R.id.btn_apply)
+        btnApply.setOnClickListener {
+            dialog.dismiss()
+        }
+        imgbtnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
     }
 }
