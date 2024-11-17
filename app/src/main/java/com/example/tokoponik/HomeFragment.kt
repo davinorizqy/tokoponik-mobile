@@ -20,7 +20,7 @@ import com.example.tokoponik.restapi.adapter.ProductAdapter
 import com.example.tokoponik.restapi.models.blog.Blog
 import com.example.tokoponik.restapi.models.blog.blogResponse
 import com.example.tokoponik.restapi.models.product.Product
-import com.example.tokoponik.restapi.models.product.productResponse
+import com.example.tokoponik.restapi.models.product.productsResponse
 import com.example.tokoponik.restapi.services.BlogService
 import com.example.tokoponik.restapi.services.ProductService
 import retrofit2.Call
@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
     private lateinit var productRecyclerView: RecyclerView
     private lateinit var blogRecyclerView: RecyclerView
 
-    private lateinit var callProduct: Call<productResponse>
+    private lateinit var callProduct: Call<productsResponse>
     private lateinit var callBlog: Call<blogResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var productService: ProductService
@@ -137,15 +137,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun productOnClick(product: Product) {
-        Toast.makeText(requireContext(), product.name, Toast.LENGTH_SHORT).show()
+        val intent = Intent(activity, ProductDetail::class.java)
+        intent.putExtra("product", product)
+        startActivity(intent)
     }
 
     private fun getProducts (limit: Int) {
         callProduct = productService.getProductLimit(limit)
-        callProduct.enqueue(object : Callback<productResponse> {
+        callProduct.enqueue(object : Callback<productsResponse> {
             override fun onResponse(
-                call: Call<productResponse>,
-                response: Response<productResponse>
+                call: Call<productsResponse>,
+                response: Response<productsResponse>
             ) {
                 if (response.isSuccessful) {
                     Log.d("Data Product", response.body()?.data.toString())
@@ -156,7 +158,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<productResponse>, t: Throwable) {
+            override fun onFailure(call: Call<productsResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
@@ -164,7 +166,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun blogOnClick(blog: Blog) {
-        Toast.makeText(requireContext(), blog.title, Toast.LENGTH_SHORT).show()
+        val intent = Intent(activity, BlogDetail::class.java)
+        intent.putExtra("blog", blog)
+        startActivity(intent)
     }
 
     private fun getBlogs () {
