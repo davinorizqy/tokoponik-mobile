@@ -172,9 +172,9 @@
                     android:text="Tambah Alamat"
                     android:textSize="15sp"
                     android:backgroundTint="@color/green"
-                    android:layout_marginLeft="10dp"
                     android:padding="12dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="30dp"
                     android:id="@+id/btn_add_address"
                     />
             </LinearLayout>
