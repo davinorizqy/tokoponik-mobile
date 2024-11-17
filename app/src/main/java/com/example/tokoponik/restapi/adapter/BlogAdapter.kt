@@ -24,7 +24,7 @@ class BlogAdapter (
 
         private val pic_blog: ImageView = itemView.findViewById(R.id.pic_blog)
         private val tv_title: TextView = itemView.findViewById(R.id.tv_title)
-        private val tv_desc: TextView = itemView.findViewById(R.id.tv_desc)
+        private val tv_author: TextView = itemView.findViewById(R.id.tv_author)
         private val tv_date: TextView = itemView.findViewById(R.id.tv_date)
 
         private var currentBlog: Blog? = null
@@ -42,7 +42,7 @@ class BlogAdapter (
             Picasso.get().load(blog.blog_pics[0].pic_path).into(pic_blog)
 
             tv_title.text = blog.title
-            tv_desc.text = blog.description
+            tv_author.text = blog.user.name
 
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault())
             val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())

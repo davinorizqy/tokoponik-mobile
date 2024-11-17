@@ -39,8 +39,8 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:src="@drawable/baseline_image_24"
                 android:layout_marginTop="30dp"
                 android:id="@+id/pic_blog"
@@ -56,15 +56,35 @@
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:id="@+id/tv_title"/>
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tanggal Blog"
-                android:layout_marginTop="10dp"
-                android:textColor="#838589"
-                android:textSize="15sp"
-                android:id="@+id/tv_date"
-                />
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Author"
+                    android:textColor="#838589"
+                    android:textSize="15sp"
+                    android:id="@+id/tv_author"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "
+                    android:textColor="#838589"
+                    android:textSize="15sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tanggal Blog"
+                    android:textColor="#838589"
+                    android:textSize="15sp"
+                    android:id="@+id/tv_date"
+                    />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

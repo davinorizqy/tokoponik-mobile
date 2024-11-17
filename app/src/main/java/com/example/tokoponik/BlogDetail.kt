@@ -39,6 +39,7 @@ class BlogDetail : AppCompatActivity() {
 
     private lateinit var picBlog: ImageView
     private lateinit var tvTitle: TextView
+    private lateinit var tvAuthor: TextView
     private lateinit var tvDate: TextView
     private lateinit var tvDesc: TextView
 
@@ -73,6 +74,7 @@ class BlogDetail : AppCompatActivity() {
 
         picBlog = findViewById(R.id.pic_blog)
         tvTitle = findViewById(R.id.tv_title)
+        tvAuthor = findViewById(R.id.tv_author)
         tvDate = findViewById(R.id.tv_date)
         tvDesc = findViewById(R.id.tv_desc)
 
@@ -82,6 +84,7 @@ class BlogDetail : AppCompatActivity() {
             Picasso.get().load(blog.blog_pics[0].pic_path).into(picBlog)
 
             tvTitle.text = blog.title
+            tvAuthor.text = blog.user.name
             tvDesc.text = blog.description
 
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault())
