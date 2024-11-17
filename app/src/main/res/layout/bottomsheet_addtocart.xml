@@ -14,24 +14,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="30dp"
+            android:gravity="center_horizontal"
             >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:text="Tambahkan ke Keranjang"
-                    android:layout_weight="1"/>
+                    android:text="Tambahkan ke Keranjang" />
                 <ImageButton
                     android:id="@+id/imgbtn_close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/baseline_close_24"
-                    android:background="@color/white"/>
+                    android:background="?attr/selectableItemBackground"
+                    android:contentDescription="Close button" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,7 +51,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/ic_minus"
-                    android:background="@color/white"
+                    android:background="@null"
                     android:layout_gravity="center"/>
                 <TextView
                     android:id="@+id/tv_quantity"
@@ -63,7 +65,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/ic_plus"
-                    android:background="@color/white"
+                    android:background="@null"
                     android:layout_gravity="center"/>
             </LinearLayout>
             <TextView

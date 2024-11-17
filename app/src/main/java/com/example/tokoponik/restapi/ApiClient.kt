@@ -4,6 +4,7 @@ import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.services.AddressService
 import com.example.tokoponik.restapi.services.AuthService
 import com.example.tokoponik.restapi.services.BlogService
+import com.example.tokoponik.restapi.services.CartService
 import com.example.tokoponik.restapi.services.ProductService
 import com.example.tokoponik.restapi.services.RatingService
 import com.example.tokoponik.restapi.services.UserService
@@ -71,5 +72,9 @@ object ApiClient {
 
     fun getWishlistService(session: SessionManager): WishlistService {
         return getRetrofit(session).create(WishlistService::class.java)
+    }
+
+    fun getCartService(session: SessionManager): CartService {
+        return getRetrofit(session).create(CartService::class.java)
     }
 }
