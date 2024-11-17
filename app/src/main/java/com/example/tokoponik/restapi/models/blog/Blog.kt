@@ -1,7 +1,10 @@
 package com.example.tokoponik.restapi.models.blog
 
+import android.os.Parcelable
 import com.example.tokoponik.restapi.models.user.User
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Blog(
     val id: Int,
     val user_id: Int,
@@ -11,4 +14,4 @@ data class Blog(
     val user: User,
     val blog_pics : List<BlogPic>,
     val blog_links : List<BlogLink>
-)
+) : Parcelable

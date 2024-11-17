@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.R
 import com.example.tokoponik.restapi.models.blog.Blog
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class BlogAdapter (
     private val onClick: (Blog) -> Unit
@@ -41,7 +43,14 @@ class BlogAdapter (
 
             tv_title.text = blog.title
             tv_desc.text = blog.description
-            tv_date.text = blog.created_at
+
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+
+            val date = inputFormat.parse(blog.created_at)
+            val formattedDate = outputFormat.format(date)
+
+            tv_date.text = formattedDate
         }
     }
 

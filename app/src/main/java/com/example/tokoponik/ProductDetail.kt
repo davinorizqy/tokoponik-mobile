@@ -5,18 +5,25 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
+import com.example.tokoponik.restapi.models.product.Product
 import com.example.tokoponik.restapi.models.product.productResponse
 import com.example.tokoponik.restapi.services.ProductService
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
+import java.util.Locale
 
 class ProductDetail : AppCompatActivity() {
 
@@ -24,9 +31,15 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var imgbtnToCart: ImageButton
     private lateinit var btnToReview: Button
 
-    private lateinit var callGet: Call<productResponse>
-    private lateinit var sessionManager: SessionManager
-    private lateinit var productService: ProductService
+    private lateinit var picProduct: ImageView
+    private lateinit var tvName: TextView
+    private lateinit var tvPrice: TextView
+    private lateinit var tvRating1: TextView
+    private lateinit var tvRating2: TextView
+    private lateinit var tvReview1: TextView
+    private lateinit var tvReview2: TextView
+    private lateinit var tvDesc: TextView
+    private lateinit var reviewRecycleView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,37 +69,34 @@ class ProductDetail : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val productId = intent.getIntExtra("product_id", -1)
+        val product: Product? = intent.getParcelableExtra("product")
 
-        sessionManager = SessionManager(this)
-        productService = ApiClient.getProductService(sessionManager)
+        picProduct = findViewById(R.id.pic_product)
+        tvName = findViewById(R.id.tv_name)
+        tvPrice = findViewById(R.id.tv_price)
+        tvRating1 = findViewById(R.id.tv_rating1)
+        tvRating2 = findViewById(R.id.tv_rating2)
+        tvReview1 = findViewById(R.id.tv_review1)
+        tvReview2 = findViewById(R.id.tv_review2)
+        tvDesc = findViewById(R.id.tv_desc)
+        reviewRecycleView = findViewById(R.id.reviewRecyclerView)
 
-        if (productId != -1) {
-            Log.d("Product Id", productId.toString())
-            getProductDetail(productId)
+        if (product != null) {
+            Log.d("Product", product.toString())
+
+            Picasso.get().load(product.product_pics[0].path).into(picProduct)
+
+            tvName.text = product.name
+            tvRating1.text = product.average_rating.toString()
+            tvRating2.text = product.average_rating.toString()
+            tvReview1.text = "88"
+            tvReview2.text = "88"
+            tvDesc.text = product.description
+
+            val formattedPrice = NumberFormat.getCurrencyInstance(Locale("id", "ID")).format(product.price)
+            tvPrice.text = formattedPrice
         } else {
             Log.e("ProductDetail", "Invalid Product ID")
         }
-    }
-
-    private fun getProductDetail(productId: Int) {
-        callGet = productService.getProductById(productId)
-        callGet.enqueue(object : Callback<productResponse> {
-            override fun onResponse(
-                call: Call<productResponse>,
-                response: Response<productResponse>
-            ) {
-                if (response.isSuccessful) {
-                    Log.d("Data Product", response.body()?.data.toString())
-                } else {
-                    Log.d("Not Success", response.toString())
-                }
-            }
-
-            override fun onFailure(call: Call<productResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
-                Log.d("Error onFailure", t.localizedMessage)
-            }
-        })
     }
 }

@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.ProductAdapter
 import com.example.tokoponik.restapi.models.product.Product
-import com.example.tokoponik.restapi.models.product.productResponse
+import com.example.tokoponik.restapi.models.product.productsResponse
 import com.example.tokoponik.restapi.services.ProductService
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +27,7 @@ class ViewProduct : AppCompatActivity() {
     private lateinit var imgbtn_cart: ImageButton
     private lateinit var recyclerView: RecyclerView
 
-    private lateinit var callGet: Call<productResponse>
+    private lateinit var callGet: Call<productsResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var productService: ProductService
     private lateinit var productAdapter: ProductAdapter
@@ -69,16 +68,16 @@ class ViewProduct : AppCompatActivity() {
 
     private fun productOnClick(product: Product) {
         val intent = Intent(this, ProductDetail::class.java)
-        intent.putExtra("product_id", product.id)
+        intent.putExtra("product", product)
         startActivity(intent)
     }
 
     private fun getProducts () {
         callGet = productService.getAllProduct()
-        callGet.enqueue(object : Callback<productResponse> {
+        callGet.enqueue(object : Callback<productsResponse> {
             override fun onResponse(
-                call: Call<productResponse>,
-                response: Response<productResponse>
+                call: Call<productsResponse>,
+                response: Response<productsResponse>
             ) {
                 if (response.isSuccessful) {
                     Log.d("Data Product", response.body()?.data.toString())
@@ -89,7 +88,7 @@ class ViewProduct : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<productResponse>, t: Throwable) {
+            override fun onFailure(call: Call<productsResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }
