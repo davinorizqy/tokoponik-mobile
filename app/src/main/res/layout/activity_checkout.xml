@@ -53,20 +53,29 @@
                 android:layout_marginTop="10dp"
                 />
             <TextView
-                android:id="@+id/tv_address_street"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nama Jalan"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"
-                />
-            <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Alamat Lengkap"
                 android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detail"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Note"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,27 +90,21 @@
                 android:layout_marginTop="10dp"
                 />
             <TextView
-                android:id="@+id/tv_bank_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nama Bank"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"
-                />
-            <TextView
-                android:id="@+id/tv_bank_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nomor Rekening"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:id="@+id/tv_bank_owner_name"
+                android:id="@+id/tv_owner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Atas Nama"
                 android:textSize="15sp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nomor Rekening"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,12 +118,12 @@
                     android:layout_weight="1"
                     />
                 <TextView
-                    android:id="@+id/order_price"
+                    android:id="@+id/tv_total_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:text="Rp 0"
-                    android:textColor="@color/red"
+                    android:textColor="@color/green"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -137,12 +140,12 @@
                     android:layout_weight="1"
                     />
                 <TextView
-                    android:id="@+id/ship_price"
+                    android:id="@+id/tv_shipment_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:text="Rp 0"
-                    android:textColor="@color/red"
+                    android:textColor="@color/green"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
@@ -159,12 +162,12 @@
                     android:layout_weight="1"
                     />
                 <TextView
-                    android:id="@+id/pricetotal"
+                    android:id="@+id/tv_price_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:text="Rp 0"
-                    android:textColor="@color/red"
+                    android:textColor="@color/green"
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
