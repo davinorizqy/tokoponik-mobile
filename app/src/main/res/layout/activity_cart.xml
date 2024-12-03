@@ -67,6 +67,13 @@
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Catatan : Harap periksa kembali barang sebelum ckeckout"
+                android:textColor="@color/red"
+                />
             <Button
                 android:id="@+id/btn_to_checkout"
                 android:layout_width="match_parent"
