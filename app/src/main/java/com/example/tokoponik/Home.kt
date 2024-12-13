@@ -2,6 +2,7 @@ package com.example.tokoponik
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,6 +19,8 @@ class Home : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        showProfileFragment(intent)
+        showTransactionFragment(intent)
         replaceFragment(HomeFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -60,7 +63,7 @@ class Home : AppCompatActivity() {
     fun showProfileFragment(intent: Intent?) {
         intent?.let {
             if (it.getBooleanExtra("showProfileFragment", false)) {
-                // Pindah ke ProfileFragment
+                Log.d("HomeActivity", "Navigating to ProfileFragment")
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.frame_layout, ProfileFragment())
                     .commit()
@@ -72,11 +75,12 @@ class Home : AppCompatActivity() {
     fun showTransactionFragment(intent: Intent?) {
         intent?.let {
             if (it.getBooleanExtra("showTransactionFragment", false)) {
-                // Pindah ke TransactionFragment
+                Log.d("HomeActivity", "Navigating to TransactionFragment")
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.frame_layout, TransactionFragment())
                     .commit()
             }
         }
     }
+
 }

@@ -17,7 +17,7 @@ import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.WishlistAdapter
 import com.example.tokoponik.restapi.adapter.WishlistButtonListener
 import com.example.tokoponik.restapi.models.wishlist.Wishlist
-import com.example.tokoponik.restapi.models.wishlist.cudResponse
+import com.example.tokoponik.restapi.models.wishlist.cdResponse
 import com.example.tokoponik.restapi.models.wishlist.getResponse
 import com.example.tokoponik.restapi.services.WishlistService
 import retrofit2.Call
@@ -42,7 +42,7 @@ class WishlistFragment : Fragment(), WishlistButtonListener {
     private lateinit var wishlistRecyclerView: RecyclerView
 
     private lateinit var callGet : Call<getResponse>
-    private lateinit var callCud : Call<cudResponse>
+    private lateinit var callCud : Call<cdResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var wishlistService: WishlistService
     private lateinit var wishlistAdapter: WishlistAdapter
@@ -139,10 +139,10 @@ class WishlistFragment : Fragment(), WishlistButtonListener {
 
     private fun deleteWishlist(id: Int) {
         callCud = wishlistService.removeFromWishlist(id)
-        callCud.enqueue(object : Callback<cudResponse> {
+        callCud.enqueue(object : Callback<cdResponse> {
             override fun onResponse(
-                call: Call<cudResponse>,
-                response: Response<cudResponse>
+                call: Call<cdResponse>,
+                response: Response<cdResponse>
             ) {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Produk berhasil di hapus", Toast.LENGTH_SHORT).show()
@@ -152,7 +152,7 @@ class WishlistFragment : Fragment(), WishlistButtonListener {
                 }
             }
 
-            override fun onFailure(call: Call<cudResponse>, t: Throwable) {
+            override fun onFailure(call: Call<cdResponse>, t: Throwable) {
                 Toast.makeText(requireContext(), t.localizedMessage, Toast.LENGTH_SHORT).show()
                 Log.d("Error onFailure", t.localizedMessage)
             }

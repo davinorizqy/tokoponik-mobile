@@ -10,5 +10,5 @@ data class Detail(
     val transaction_id: Int,
     val product_id: Int,
     val qty: Int,
-    val product: Product,
+    val product: Product
 ) : Parcelable

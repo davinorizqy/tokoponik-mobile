@@ -13,5 +13,4 @@ data class Blog(
     val created_at: String,
     val user: User,
     val blog_pics : List<BlogPic>,
-    val blog_links : List<BlogLink>
 ) : Parcelable

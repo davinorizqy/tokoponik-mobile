@@ -3,7 +3,6 @@ package com.example.tokoponik
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -18,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.ApiClient
 import com.example.tokoponik.restapi.adapter.RatingAdapter
+import com.example.tokoponik.restapi.models.cart.cudResponse
 import com.example.tokoponik.restapi.models.product.Product
 import com.example.tokoponik.restapi.models.rating.Rating
 import com.example.tokoponik.restapi.models.rating.averageResponse
 import com.example.tokoponik.restapi.models.rating.countResponse
 import com.example.tokoponik.restapi.models.rating.ratingResponse
-import com.example.tokoponik.restapi.models.wishlist.cudResponse
+import com.example.tokoponik.restapi.models.wishlist.cdResponse
+import com.example.tokoponik.restapi.services.CartService
 import com.example.tokoponik.restapi.services.RatingService
 import com.example.tokoponik.restapi.services.WishlistService
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -56,11 +57,13 @@ class ProductDetail : AppCompatActivity() {
     private lateinit var callRating: Call<ratingResponse>
     private lateinit var callAvarage: Call<averageResponse>
     private lateinit var callCount: Call<countResponse>
-    private lateinit var callWishlist: Call<cudResponse>
+    private lateinit var callWishlist: Call<cdResponse>
+    private lateinit var callCart: Call<cudResponse>
     private lateinit var sessionManager: SessionManager
     private lateinit var ratingService: RatingService
     private lateinit var ratingAdapter: RatingAdapter
     private lateinit var wishlistService: WishlistService
+    private lateinit var cartService: CartService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +101,7 @@ class ProductDetail : AppCompatActivity() {
         sessionManager = SessionManager(this)
         ratingService = ApiClient.getRatingService(sessionManager)
         wishlistService = ApiClient.getWishlistService(sessionManager)
+        cartService = ApiClient.getCartService(sessionManager)
 
         val product: Product? = intent.getParcelableExtra("product")
 
@@ -138,7 +142,9 @@ class ProductDetail : AppCompatActivity() {
 
         btnAddToCart = findViewById(R.id.btn_add_to_cart)
         btnAddToCart.setOnClickListener {
-            showBottomSheet()
+            if (product != null) {
+                showBottomSheet(product.id)
+            }
         }
     }
 
@@ -146,7 +152,7 @@ class ProductDetail : AppCompatActivity() {
         Log.d("Rating", rating.toString())
     }
 
-    fun showBottomSheet() {
+    fun showBottomSheet(product_id: Int) {
         val dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottomsheet_addtocart, null)
 
@@ -197,6 +203,7 @@ class ProductDetail : AppCompatActivity() {
         // Apply button listener
         btnApply.setOnClickListener {
             Toast.makeText(this, "Added $quantity items to cart", Toast.LENGTH_SHORT).show()
+            addToCart(product_id ,quantity)
             dialog.dismiss()
         }
 
@@ -279,10 +286,28 @@ class ProductDetail : AppCompatActivity() {
 
     private fun addToWishlist(product_id: Int) {
         callWishlist = wishlistService.addToWishlist(product_id)
-        callWishlist.enqueue(object : Callback<cudResponse> {
-            override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
+        callWishlist.enqueue(object : Callback<cdResponse> {
+            override fun onResponse(call: Call<cdResponse>, response: Response<cdResponse>) {
                 if (response.isSuccessful) {
                     Toast.makeText(applicationContext, "Produk berhasil ditambahkan ke wishlist", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d("Not Success", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<cdResponse>, t: Throwable) {
+                Toast.makeText(applicationContext, t.localizedMessage, Toast.LENGTH_SHORT).show()
+                Log.d("Error onFailure", t.localizedMessage)
+            }
+        })
+    }
+
+    private fun addToCart(product_id: Int, qty: Int) {
+        callCart = cartService.addToCart(product_id, qty)
+        callCart.enqueue(object : Callback<cudResponse> {
+            override fun onResponse(call: Call<cudResponse>, response: Response<cudResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(applicationContext, "Produk berhasil ditambahkan ke keranjang", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.d("Not Success", response.toString())
                 }

@@ -16,23 +16,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="center_vertical">
 
+            <!-- Date TextView - Aligned to the left -->
             <TextView
-                android:id="@+id/statusTextView"
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:gravity="start"
+                android:textColor="@android:color/black"/>
+
+            <!-- Status TextView - Aligned to the right -->
+            <TextView
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Status"
                 android:textColor="@color/green"
                 android:textStyle="bold"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:gravity="end"
+                android:layout_marginEnd="16dp"/>
         </LinearLayout>
-        <!-- RecyclerView untuk Daftar Produk(item_transaction_product) -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/transaction_productRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Total Produk:"
+                android:text="Total Harga:"
                 android:textStyle="bold" />
             <TextView
                 android:layout_marginTop="8dp"
@@ -50,8 +59,10 @@
                 android:layout_height="wrap_content"
                 android:text="Harga"
                 android:textStyle="bold"
-                android:textColor="@color/red"
-                android:layout_marginLeft="10dp"/>
+                android:textColor="@color/green"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/tv_grandtotal"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -62,21 +73,12 @@
             >
 
             <Button
-                android:id="@+id/detailButton"
+                android:id="@+id/btn_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_outline_black"
                 android:text="Rincian"
                 android:textColor="#000000" />
-
-            <Button
-                android:id="@+id/rateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/green"
-                android:text="Nilai"
-                android:layout_marginLeft="20dp"
-                />
         </LinearLayout>
     </LinearLayout>
 

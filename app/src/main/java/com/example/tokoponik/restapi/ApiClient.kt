@@ -3,10 +3,12 @@ package com.example.tokoponik.restapi
 import com.example.tokoponik.helper.SessionManager
 import com.example.tokoponik.restapi.services.AddressService
 import com.example.tokoponik.restapi.services.AuthService
+import com.example.tokoponik.restapi.services.BankService
 import com.example.tokoponik.restapi.services.BlogService
 import com.example.tokoponik.restapi.services.CartService
 import com.example.tokoponik.restapi.services.ProductService
 import com.example.tokoponik.restapi.services.RatingService
+import com.example.tokoponik.restapi.services.TransactionService
 import com.example.tokoponik.restapi.services.UserService
 import com.example.tokoponik.restapi.services.WishlistService
 import okhttp3.OkHttpClient
@@ -16,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
     private const val BASE_URL = "http://10.0.2.2:8000/api/"
+//    private const val BASE_URL = "https://restapi-tokopoadnik-aqfsagdnfph3cgd8.australiaeast-01.azurewebsites.net/api/"
 
         private fun getOkHttpClient(session: SessionManager): OkHttpClient {
         val logging = HttpLoggingInterceptor().apply {
@@ -76,5 +79,13 @@ object ApiClient {
 
     fun getCartService(session: SessionManager): CartService {
         return getRetrofit(session).create(CartService::class.java)
+    }
+
+    fun getBankService(session: SessionManager): BankService {
+        return getRetrofit(session).create(BankService::class.java)
+    }
+
+    fun getTransactionService(session: SessionManager): TransactionService {
+        return getRetrofit(session).create(TransactionService::class.java)
     }
 }

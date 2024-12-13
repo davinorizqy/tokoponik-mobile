@@ -32,7 +32,7 @@ class CartAdapter (
         private val tv_price: TextView = itemView.findViewById(R.id.tv_price)
         private val tv_qty: TextView = itemView.findViewById(R.id.tv_qty)
 
-        val editButton: ImageButton = itemView.findViewById(R.id.imgbtn_edit)
+//        val editButton: ImageButton = itemView.findViewById(R.id.imgbtn_edit)
         val deleteButton: ImageButton = itemView.findViewById(R.id.imgbtn_delete)
 
         private var currentCart: Cart? = null
@@ -42,11 +42,11 @@ class CartAdapter (
                 currentCart?.let { onClick(it) }
             }
 
-            editButton.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onEditClick(adapterPosition)
-                }
-            }
+//            editButton.setOnClickListener {
+//                if (adapterPosition != RecyclerView.NO_POSITION) {
+//                    listener.onEditClick(adapterPosition)
+//                }
+//            }
 
             deleteButton.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {

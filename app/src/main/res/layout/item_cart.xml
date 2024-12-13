@@ -67,14 +67,14 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imgbtn_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_edit_24"
-            android:background="@color/white"
-            android:layout_marginRight="8dp"
-            />
+<!--        <ImageButton-->
+<!--            android:id="@+id/imgbtn_edit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/baseline_edit_24"-->
+<!--            android:background="@color/white"-->
+<!--            android:layout_marginRight="8dp"-->
+<!--            />-->
         <ImageButton
             android:id="@+id/imgbtn_delete"
             android:layout_width="wrap_content"

@@ -49,33 +49,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
-            <!-- Informasi Transaksi -->
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <!-- Informasi Transaksi -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor Transaksi:"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
+
                 <TextView
-                    android:id="@+id/transactionNumber"
+                    android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1" /> <!-- Menambahkan layout_weight -->
 
                 <TextView
-                    android:id="@+id/transactionDate"
+                    android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11-09-2024"
-                    android:textColor="#999999"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginStart="75dp"/>
+                    android:text="Status"
+                    android:textColor="@color/green"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="16dp" />
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Transaksi:"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11-09-2024"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,23 +112,13 @@
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:id="@+id/transactionTotal"
+                    android:id="@+id/tv_qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jumlah"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="5dp"/>
-                <TextView
-                    android:id="@+id/transaction_Status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Status"
-                    android:textColor="@color/green"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="96dp"
-                    />
             </LinearLayout>
 
             <!-- RecyclerView untuk Daftar Produk (item_transaction_product -->
@@ -131,18 +144,38 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Nama Penerima:"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    />
+                <TextView
+                    android:id="@+id/tv_receiverName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Penerima"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:layout_marginStart="5dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Alamat Pengiriman:"
                     android:textColor="#999999"
                     android:textSize="15sp"
                     />
                 <TextView
-                    android:id="@+id/shippingAddress"
+                    android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alamat"
                     android:textColor="#000000"
                     android:textSize="15sp"
-                    android:layout_marginStart="20dp"/>
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,12 +189,12 @@
                     android:textSize="15sp"
                     />
                 <TextView
-                    android:id="@+id/paymentMethod"
+                    android:id="@+id/tv_banknum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor Rekening"
                     android:textSize="15sp"
-                    android:layout_marginStart="8dp"/>
+                    android:layout_marginStart="5dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -170,18 +203,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jumlah Total:"
+                    android:text="Total Akhir:"
                     android:textColor="#999999"
                     android:textSize="14sp"
                     />
 
                 <TextView
-                    android:id="@+id/totalAmount"
+                    android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rp 13.500"
                     android:textSize="15sp"
-                    android:layout_marginStart="70dp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/green"
                     />
             </LinearLayout>
             <Button
@@ -193,11 +228,11 @@
                 android:layout_marginTop="16dp"/>
             <Button
                 android:id="@+id/btn_to_rateform"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nilai"
                 android:backgroundTint="@color/green"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:layout_gravity="right"
                 />
         </LinearLayout>

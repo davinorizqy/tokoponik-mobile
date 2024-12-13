@@ -1,6 +1,6 @@
 package com.example.tokoponik.restapi.services
 
-import com.example.tokoponik.restapi.models.wishlist.cudResponse
+import com.example.tokoponik.restapi.models.wishlist.cdResponse
 import com.example.tokoponik.restapi.models.wishlist.getResponse
 import retrofit2.Call
 import retrofit2.http.DELETE
@@ -18,8 +18,8 @@ interface WishlistService {
     @POST("auth/wishlists/store")
     fun addToWishlist(
         @Field("product_id") product_id: Int
-    ) : Call<cudResponse>
+    ) : Call<cdResponse>
 
     @DELETE("auth/wishlists/{id}/destroy")
-    fun removeFromWishlist(@Path("id") id: Int) : Call<cudResponse>
+    fun removeFromWishlist(@Path("id") id: Int) : Call<cdResponse>
 }

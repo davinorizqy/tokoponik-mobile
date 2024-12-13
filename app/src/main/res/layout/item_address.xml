@@ -66,13 +66,7 @@
             android:layout_height="wrap_content"
             android:text="Note"
             android:textSize="15sp"
-            android:id="@+id/tv_note"/>
-        <CheckBox
-            android:id="@+id/checkbox_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gunakan sebagai alamat pengiriman"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:id="@+id/tv_note"
+            />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
