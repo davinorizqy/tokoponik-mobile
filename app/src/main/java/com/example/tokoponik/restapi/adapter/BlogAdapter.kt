@@ -73,5 +73,4 @@ object BlogCallBack : DiffUtil.ItemCallback<Blog>() {
     override fun areContentsTheSame(oldItem: Blog, newItem: Blog): Boolean {
         return oldItem == newItem
     }
-
 }

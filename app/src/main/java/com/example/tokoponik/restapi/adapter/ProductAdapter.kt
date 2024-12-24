@@ -27,7 +27,6 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class ProductAdapter (
-//    private val listener: ProductButtonListener,
     private val onClick: (Product) -> Unit
 ) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductCallBack) {
 
@@ -134,5 +133,4 @@ object ProductCallBack : DiffUtil.ItemCallback<Product>() {
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
     }
-
 }

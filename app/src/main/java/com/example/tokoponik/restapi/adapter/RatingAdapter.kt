@@ -37,7 +37,7 @@ class RatingAdapter (
 
         fun bind(rating: Rating) {
             currentRating = rating
-            Log.d("Blog Data", rating.toString())
+            Log.d("Rating Data", rating.toString())
 
             tvUser.text = rating.user.name
             tvRating.text = " " + rating.rating.toString()
